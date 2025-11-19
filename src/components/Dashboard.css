@@ -1,0 +1,240 @@
+#dashboard {
+  /* top_content */
+
+  /* Auto layout */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px;
+  gap: 32px;
+
+  position: absolute;
+  width: 631px;
+  height: 161.75px;
+  left: calc(50% - 631px / 2);
+  top: 45px;
+}
+
+#dashboard .content-area {
+  /* speed */
+
+  /* Auto layout */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  gap: 3.75px;
+
+  width: 301.5px;
+  height: 161.75px;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+#dashboard .content-area .gear-area {
+  /* gear */
+
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  gap: 15px;
+
+  width: 301.5px;
+  height: 36px;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  align-self: stretch;
+  flex-grow: 0;
+}
+
+/* P */
+#dashboard .content-area .gear-area .gear-P {
+  width: 22px;
+  height: 36px;
+
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 100%;
+  /* identical to box height, or 36px */
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #1d1d1d;
+
+  opacity: 0.2;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+#dashboard .content-area .gear-area .gear-R {
+  /* R */
+
+  width: 23px;
+  height: 36px;
+
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 100%;
+  /* identical to box height, or 36px */
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #1d1d1d;
+
+  opacity: 0.2;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+#dashboard .content-area .gear-area .gear-N {
+  /* N */
+
+  width: 26px;
+  height: 36px;
+
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 100%;
+  /* identical to box height, or 36px */
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #1d1d1d;
+
+  opacity: 0.2;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 2;
+  flex-grow: 0;
+}
+
+#dashboard .content-area .gear-area .gear-D {
+  /* D */
+
+  width: 26px;
+  height: 36px;
+
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 100%;
+  /* identical to box height, or 36px */
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #1d1d1d;
+
+  opacity: 0.2;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 3;
+  flex-grow: 0;
+}
+
+/* Active gear state */
+#dashboard .content-area .gear-area .gear-P.active,
+#dashboard .content-area .gear-area .gear-R.active,
+#dashboard .content-area .gear-area .gear-N.active,
+#dashboard .content-area .gear-area .gear-D.active {
+  color: #795686;
+  opacity: 0.9;
+}
+
+#dashboard .content-area .speedometer {
+  /* speedometer */
+
+  /* Auto layout */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+
+  width: 301.5px;
+  height: 122px;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 1;
+  align-self: stretch;
+  flex-grow: 0;
+}
+
+#dashboard .content-area .speedometer .speed {
+  width: 301.5px;
+  height: 90px;
+
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 90px;
+  line-height: 100%;
+  /* identical to box height, or 90px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  letter-spacing: -0.02em;
+
+  color: #795686;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  align-self: stretch;
+  flex-grow: 0;
+}
+
+#dashboard .content-area .speedometer .unit {
+  /* km/h */
+
+  width: 301.5px;
+  height: 32px;
+
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 31.5px;
+  line-height: 100%;
+  /* identical to box height, or 32px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  color: #795686;
+  opacity: 0.6;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 1;
+  align-self: stretch;
+  flex-grow: 0;
+}

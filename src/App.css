@@ -1,0 +1,11 @@
+#root {
+  max-width: 1920px;
+
+  touch-action: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}

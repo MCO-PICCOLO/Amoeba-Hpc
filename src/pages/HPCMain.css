@@ -1,0 +1,41 @@
+#hpc-main {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+
+  background-image: url('../assets/images/bg.png');
+  overflow: hidden;
+}
+
+#hpc-main .car-normal {
+  position: absolute;
+  width: 1194px;
+  height: 1080px;
+  left: calc(50% - 1194px / 2);
+  top: 0px;
+
+  background: url('../assets/images/AD_CAR.png');
+}
+
+#hpc-main .ai-button {
+  /* ai_button */
+
+  position: absolute;
+  width: 275px;
+  height: 291px;
+  left: 142px;
+  top: 705px;
+  background-image: url('../assets/images/btn-ai.png');
+  cursor: pointer;
+  transition: transform 0.1s ease, opacity 0.2s ease;
+}
+
+#hpc-main .ai-button:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+#hpc-main .ai-button:active {
+  transform: scale(0.95);
+  opacity: 0.8;
+}

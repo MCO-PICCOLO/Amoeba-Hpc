@@ -1,0 +1,13 @@
+node_modules
+.git
+.gitignore
+README.md
+.env.local
+npm-debug.log*
+dist
+.DS_Store
+*.log
+.vscode
+.idea
+.prettierrc
+eslint.config.js
