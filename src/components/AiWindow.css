@@ -1,0 +1,61 @@
+#ai-window {
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 726px;
+  height: 1080px;
+  left: -726px;
+  top: 0px;
+
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 22.5px;
+  backdrop-filter: blur(10px);
+
+  transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+}
+
+#ai-window.open {
+  left: 0px;
+}
+
+#ai-window .close-button {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background: transparent;
+  border: 2px solid #795686;
+  border-radius: 50%;
+  color: #795686;
+  font-size: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-weight: 300;
+  line-height: 1;
+}
+
+#ai-window .close-button:hover {
+  background: #795686;
+  color: white;
+  transform: rotate(90deg);
+}
+
+#ai-window .ai-content {
+  padding: 60px 40px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+#ai-window .ai-content h2 {
+  font-family: 'Pretendard';
+  font-size: 36px;
+  font-weight: 600;
+  color: #795686;
+  margin-bottom: 30px;
+}

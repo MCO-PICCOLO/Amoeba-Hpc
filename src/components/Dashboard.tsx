@@ -3,9 +3,10 @@ import './Dashboard.css';
 
 interface DashboardProps {
   gear: string;
+  isAiWindowOpen: boolean;
 }
 
-const Dashboard = ({ gear }: DashboardProps) => {
+const Dashboard = ({ gear, isAiWindowOpen }: DashboardProps) => {
   const [speed, setSpeed] = useState(30);
   const [targetSpeed, setTargetSpeed] = useState(30);
 
@@ -33,7 +34,7 @@ const Dashboard = ({ gear }: DashboardProps) => {
   }, [targetSpeed]);
 
   return (
-    <div id="dashboard">
+    <div id="dashboard" className={isAiWindowOpen ? 'shifted' : ''}>
       <div className="content-area">
         <div className="gear-area">
           <div className={`gear-P ${gear === 'P' ? 'active' : ''}`}>P</div>

@@ -15,6 +15,19 @@
   top: 0px;
 
   background: url('../assets/images/AD_CAR.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#hpc-main .car-normal.shrink {
+  /* AiWindow width: 726px */
+  /* 726px만큼 오른쪽으로 이동하고, 좌우로 축소 */
+  left: calc(50% - 1194px / 2 + 363px);
+  transform: scaleX(0.7);
 }
 
 #hpc-main .ai-button {

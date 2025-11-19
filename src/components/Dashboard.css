@@ -13,6 +13,13 @@
   height: 161.75px;
   left: calc(50% - 631px / 2);
   top: 45px;
+
+  transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#dashboard.shifted {
+  /* AiWindow width: 726px, car-normal shift: 363px */
+  left: calc(50% - 631px / 2 + 363px);
 }
 
 #dashboard .content-area {
