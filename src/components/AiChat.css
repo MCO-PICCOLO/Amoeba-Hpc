@@ -1,0 +1,59 @@
+.ai-chat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 22.5px 15px;
+  gap: 7.5px;
+  isolation: isolate;
+
+  width: 546px;
+  height: 90px;
+
+  border-radius: 22.5px;
+  background-image: url('../assets/images/chat-from-user.png');
+  /* Inside auto layout */
+  flex: none;
+  order: 2;
+  flex-grow: 0;
+}
+
+.ai-chat.from-ai {
+  background-image: url('../assets/images/chat-from-ai.png');
+}
+
+.ai-chat .text-area {
+  /* soc1_therminal */
+
+  /* Auto layout */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 12px;
+
+  width: 429px;
+  margin: 0 auto;
+
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 36px;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #1d1d1d;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+  z-index: 1;
+}
+
+.ai-chat.from-ai .text-area {
+  color: #ffffff;
+}

@@ -1,19 +1,72 @@
+﻿import { useState, useEffect } from 'react';
+import AiChat from './AiChat';
 import './AiWindow.css';
 
 interface AiWindowProps {
+  keyState?: number;
   isOpen: boolean;
   onClose: () => void;
 }
 
-const AiWindow = ({ isOpen, onClose }: AiWindowProps) => {
+const AiWindow = ({ keyState, isOpen, onClose }: AiWindowProps) => {
+  const scenarioChat = [
+    [],
+    [
+      { message: `“There’re some bag in the trunk”`, speaker: 'User' },
+      { message: `“Want a screen alert when we get there?”`, speaker: 'AI' },
+      { message: `“Yes”`, speaker: 'User' },
+    ],
+    [
+      { message: `“Play the XXXX video.”`, speaker: 'User' },
+      { message: `“Shall I play the XXXX video now?”`, speaker: 'AI' },
+      { message: `“Yes”`, speaker: 'User' },
+    ],
+  ];
+  const [dialog, setDialog] = useState<
+    Array<{ message: string; speaker: string }>
+  >([]);
+
+  useEffect(() => {
+    if (keyState === 0 || keyState === 1 || keyState === 2) {
+      setDialog([]);
+
+      const fullDialog = scenarioChat[keyState || 0] || [];
+      const timeouts: number[] = [];
+
+      fullDialog.forEach((chat, index) => {
+        const timeoutId = setTimeout(() => {
+          setDialog((prev) => [...prev, chat]);
+        }, (index + 1) * 1000);
+        timeouts.push(timeoutId);
+      });
+
+      return () => {
+        timeouts.forEach((timeoutId) => clearTimeout(timeoutId));
+      };
+    }
+  }, [keyState]);
+
   return (
     <div id="ai-window" className={isOpen ? 'open' : ''}>
-      <button className="close-button" onClick={onClose}>
-        ✕
-      </button>
-      <div className="ai-content">
-        <h2>AI Assistant</h2>
-        {/* AI 윈도우 내용을 여기에 추가 */}
+      <div className="close-button" onClick={onClose} />
+      <div className="piccolo-rule">
+        <div className="title-area">PICCOLO Rule</div>
+      </div>
+      <div className="divider" />
+      <div className="piccolo-agent">
+        <div className="title-area">PICCOLO Agent</div>
+        <div className="ai-area">
+          <div className="ai-symbol" />
+          <div className="chat-area">
+            {dialog.map((chat, index) => (
+              <AiChat
+                key={index}
+                message={chat.message}
+                speaker={chat.speaker}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -24,10 +24,62 @@
 }
 
 #hpc-main .car-normal.shrink {
-  /* AiWindow width: 726px */
-  /* 726px만큼 오른쪽으로 이동하고, 좌우로 축소 */
-  left: calc(50% - 1194px / 2 + 363px);
-  transform: scaleX(0.7);
+  left: calc(1920px - 1194px - 0px);
+}
+
+#hpc-main .car-normal.md-mode {
+  background-image: url('../assets/images/MD_CAR.png');
+}
+
+#hpc-main .car-normal.parking-mode {
+  background-image: url('../assets/images/Parking_CAR.png');
+}
+
+#hpc-main .car-normal .toaster {
+  /* popup */
+
+  box-sizing: border-box;
+
+  /* Auto layout */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 60px;
+
+  position: absolute;
+  /* width: 631px; */
+  height: 117px;
+  left: 281.5px;
+  top: 238.75px;
+
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 57px;
+  display: flex;
+  align-items: center;
+
+  color: #1d1d1d;
+
+  background: #ffffff;
+  box-shadow: 0px 3px 18px rgba(71, 90, 243, 0.55);
+  border-radius: 36px;
+}
+
+#hpc-main .battery-indicator {
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 159px;
+  height: 450.5px;
+  right: 60px;
+  top: 45px;
+
+  background-image: url('../assets/images/battery.png');
+  border: 0.75px solid rgba(255, 255, 255, 0.7);
+  border-radius: 22.5px;
 }
 
 #hpc-main .ai-button {
