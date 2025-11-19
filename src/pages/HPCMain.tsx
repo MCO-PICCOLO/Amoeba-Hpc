@@ -49,6 +49,8 @@ const HPCMain = ({}: HPCMainProps) => {
     setIsAiWindowOpen(false);
   };
 
+  const gear = keyState === 5 ? 'P' : 'D';
+
   return (
     <div id="hpc-main">
       <div
@@ -63,7 +65,7 @@ const HPCMain = ({}: HPCMainProps) => {
           <div className="toaster">Please check the trunk.</div>
         )}
       </div>
-      <Dashboard gear={'D'} isAiWindowOpen={isAiWindowOpen} />
+      <Dashboard gear={gear} isAiWindowOpen={isAiWindowOpen} />
       {!isAiWindowOpen && (
         <div className="ai-button" onClick={handleAiButtonClick} />
       )}
