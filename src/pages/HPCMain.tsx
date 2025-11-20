@@ -1,7 +1,17 @@
 import { useState, useEffect } from 'react';
 import Dashboard from '../components/Dashboard';
 import AiWindow from '../components/AiWindow';
-import { getKeyState, getContainerNames } from '../utils/RestAPI';
+import {
+  getKeyState,
+  getContainerNames,
+  postDrivingStatus,
+  postResetDemo,
+  getSound1,
+  getSound2,
+  postScene1,
+  postScene2,
+  postScene4,
+} from '../utils/RestAPI';
 import './HPCMain.css';
 
 interface HPCMainProps {}
@@ -10,6 +20,7 @@ const HPCMain = ({}: HPCMainProps) => {
   const [isAiWindowOpen, setIsAiWindowOpen] = useState(false);
   const [keyState, setKeyState] = useState<number>(0);
   const [containerNames, setContainerNames] = useState<string[]>([]);
+  const [previousKeyState, setPreviousKeyState] = useState<number>(-1);
 
   useEffect(() => {
     const imagesToPreload = [
@@ -57,10 +68,11 @@ const HPCMain = ({}: HPCMainProps) => {
           );
           console.log(`Current keyState: ${keyState}`);
 
-          // 항상 업데이트 (디버깅용)
-          if (!isNaN(numericState)) {
+          // keyState가 변경되었을 때만 업데이트 및 API 호출
+          if (!isNaN(numericState) && numericState !== keyState) {
+            setPreviousKeyState(keyState);
             setKeyState(numericState);
-            console.log(`State updated to: ${numericState}`);
+            console.log(`State updated from ${keyState} to: ${numericState}`);
           }
         }
       } catch (error) {
@@ -78,6 +90,50 @@ const HPCMain = ({}: HPCMainProps) => {
       clearInterval(interval);
     };
   }, []); // keyState를 의존성에서 제거
+
+  // keyState 변경 시 API 호출
+  useEffect(() => {
+    const handleKeyStateChange = async () => {
+      if (previousKeyState === -1) return; // 초기값은 무시
+
+      try {
+        switch (keyState) {
+          case 0:
+            console.log(
+              'KeyState 0: Calling postDrivingStatus(AD) and postResetDemo',
+            );
+            await postDrivingStatus('AD');
+            await postResetDemo();
+            break;
+          case 1:
+            console.log('KeyState 1: Calling getSound1 and postScene1');
+            await getSound1();
+            await postScene1();
+            break;
+          case 2:
+            console.log('KeyState 2: Calling getSound2 and postScene2');
+            await getSound2();
+            await postScene2();
+            break;
+          case 3:
+            console.log('KeyState 3: Calling postDrivingStatus(MD)');
+            await postDrivingStatus('MD');
+            break;
+          case 4:
+            console.log('KeyState 4: Calling postDrivingStatus(PK) and postScene4');
+            await postDrivingStatus('PK');
+            await postScene4();
+            break;
+          default:
+            console.log(`KeyState ${keyState}: No action defined`);
+        }
+      } catch (error) {
+        console.error(`Error handling keyState ${keyState}:`, error);
+      }
+    };
+
+    handleKeyStateChange();
+  }, [keyState, previousKeyState]);
 
   const handleAiButtonClick = () => {
     console.log('AI button clicked');
