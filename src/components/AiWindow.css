@@ -74,6 +74,64 @@
   flex-grow: 0;
 }
 
+#ai-window .piccolo-rule .rule-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0px;
+  gap: 20px;
+
+  width: 546px;
+  height: 300px;
+
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+#ai-window .piccolo-rule .rule-area .rule {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 30px 20px;
+  gap: 10px;
+  isolation: isolate;
+
+  width: 546px;
+  height: 90px;
+  border-radius: 30px;
+
+  background-image: url('../assets/images/rule-bg.png');
+  /* Inside auto layout */
+  flex: none;
+  order: 2;
+  flex-grow: 0;
+}
+
+#ai-window .piccolo-rule .rule-area .rule .text {
+  margin: 0 0 0 30px;
+  width: 204px;
+  height: 36px;
+
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 36px;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+
+  color: #ffffff;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
 #ai-window .divider {
   position: absolute;
   width: 621px;

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Dashboard from '../components/Dashboard';
 import AiWindow from '../components/AiWindow';
-import { getKeyState } from '../utils/RestAPI';
+import { getKeyState, getContainerNames } from '../utils/RestAPI';
 import './HPCMain.css';
 
 interface HPCMainProps {}
@@ -9,6 +9,7 @@ interface HPCMainProps {}
 const HPCMain = ({}: HPCMainProps) => {
   const [isAiWindowOpen, setIsAiWindowOpen] = useState(false);
   const [keyState, setKeyState] = useState<number>(0);
+  const [containerNames, setContainerNames] = useState<string[]>([]);
 
   useEffect(() => {
     const imagesToPreload = [
@@ -21,6 +22,21 @@ const HPCMain = ({}: HPCMainProps) => {
       const img = new Image();
       img.src = src;
     });
+
+    // 컨테이너 이름들 가져오기
+    const fetchContainerNames = async () => {
+      try {
+        const result = await getContainerNames();
+        if (result.success && result.data) {
+          setContainerNames(result.data.container_names || []);
+          console.log('Container names loaded:', result.data.container_names);
+        }
+      } catch (error) {
+        console.error('Failed to fetch container names:', error);
+      }
+    };
+
+    fetchContainerNames();
   }, []);
 
   useEffect(() => {
@@ -97,6 +113,7 @@ const HPCMain = ({}: HPCMainProps) => {
         keyState={keyState}
         isOpen={isAiWindowOpen}
         onClose={handleCloseAiWindow}
+        containerNames={containerNames}
       />
     </div>
   );
