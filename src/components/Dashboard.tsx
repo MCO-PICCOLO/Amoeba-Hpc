@@ -10,14 +10,26 @@ const Dashboard = ({ gear, isAiWindowOpen }: DashboardProps) => {
   const [speed, setSpeed] = useState(30);
   const [targetSpeed, setTargetSpeed] = useState(30);
 
+  // 기어가 P로 변경되면 즉시 속도를 0으로 설정
+  useEffect(() => {
+    if (gear === 'P') {
+      setSpeed(0);
+      setTargetSpeed(0);
+    }
+  }, [gear]);
+
   useEffect(() => {
     const targetInterval = setInterval(() => {
-      const randomSpeed = Math.floor(Math.random() * (100 - 20 + 1)) + 20;
-      setTargetSpeed(randomSpeed);
+      if (gear === 'P') {
+        setTargetSpeed(0);
+      } else {
+        const randomSpeed = Math.floor(Math.random() * (100 - 20 + 1)) + 20;
+        setTargetSpeed(randomSpeed);
+      }
     }, 3000);
 
     return () => clearInterval(targetInterval);
-  }, []);
+  }, [gear]);
 
   useEffect(() => {
     const animationInterval = setInterval(() => {

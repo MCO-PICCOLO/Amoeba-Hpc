@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Dashboard from '../components/Dashboard';
 import AiWindow from '../components/AiWindow';
+import { getKeyState } from '../utils/RestAPI';
 import './HPCMain.css';
 
 interface HPCMainProps {}
@@ -23,22 +24,44 @@ const HPCMain = ({}: HPCMainProps) => {
   }, []);
 
   useEffect(() => {
-    const handleKeyPress = (event: KeyboardEvent) => {
-      const key = event.key;
+    const fetchKeyState = async () => {
+      try {
+        const result = await getKeyState();
+        console.log('API Response:', result); // 전체 응답 로그
 
-      // 0, 1, 2, 3, 4, 5 키 입력 처리
-      if (key >= '0' && key <= '5') {
-        const value = parseInt(key);
-        setKeyState(value);
-        console.log(`Key pressed: ${key}, State changed to: ${value}`);
+        if (result.success && result.data) {
+          const serverState = result.data.state || result.data;
+          const numericState = parseInt(String(serverState), 10);
+
+          console.log(
+            `Raw server state: ${serverState} (type: ${typeof serverState})`,
+          );
+          console.log(
+            `Parsed numeric state: ${numericState} (type: ${typeof numericState})`,
+          );
+          console.log(`Current keyState: ${keyState}`);
+
+          // 항상 업데이트 (디버깅용)
+          if (!isNaN(numericState)) {
+            setKeyState(numericState);
+            console.log(`State updated to: ${numericState}`);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch key state from server:', error);
       }
     };
 
-    window.addEventListener('keypress', handleKeyPress);
+    // 즉시 한 번 실행
+    fetchKeyState();
+
+    // 1초마다 서버에서 keyState 가져오기
+    const interval = setInterval(fetchKeyState, 1000);
+
     return () => {
-      window.removeEventListener('keypress', handleKeyPress);
+      clearInterval(interval);
     };
-  }, []);
+  }, []); // keyState를 의존성에서 제거
 
   const handleAiButtonClick = () => {
     console.log('AI button clicked');
@@ -49,19 +72,19 @@ const HPCMain = ({}: HPCMainProps) => {
     setIsAiWindowOpen(false);
   };
 
-  const gear = keyState === 5 ? 'P' : 'D';
+  const gear = keyState === 4 ? 'P' : 'D';
 
   return (
     <div id="hpc-main">
       <div
         className={`car-normal ${isAiWindowOpen ? 'shrink' : ''} ${
-          keyState === 4 ? 'md-mode' : ''
-        } ${keyState === 5 ? 'parking-mode' : ''}`}
+          keyState === 3 ? 'md-mode' : ''
+        } ${keyState === 4 ? 'parking-mode' : ''}`}
       >
-        {keyState === 4 && (
+        {keyState === 3 && (
           <div className="toaster">Video disabled while MD</div>
         )}
-        {keyState === 5 && (
+        {keyState === 4 && (
           <div className="toaster">Please check the trunk.</div>
         )}
       </div>

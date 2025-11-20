@@ -15,6 +15,13 @@ export default defineConfig({
       Expires: '0',
     },
     proxy: {
+      '/api-relay': {
+        target: 'http://13.124.28.169:5176',
+        secure: false,
+        changeOrigin: true,
+        timeout: 5000,
+        proxyTimeout: 10000,
+      },
       '/api': {
         target: 'http://10.0.0.30:8080',
         changeOrigin: true,
