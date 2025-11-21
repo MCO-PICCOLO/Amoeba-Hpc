@@ -54,7 +54,7 @@
   padding: 0px;
   gap: 5px;
 
-  width: 255px;
+  /* width: 255px; */
   height: 45px;
 
   font-family: 'Pretendard';
@@ -189,7 +189,7 @@
   gap: 15px;
 
   width: 546px;
-  height: 420px;
+  height: 495px;
 
   flex: none;
   order: 1;
@@ -208,7 +208,7 @@
   gap: 15px;
 
   width: 546px;
-  height: 105px;
+  height: 173px;
 
   background-image: url('../assets/images/btn-ai.png');
   background-size: auto 100%;

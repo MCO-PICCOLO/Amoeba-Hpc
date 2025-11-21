@@ -96,7 +96,7 @@ const AiWindow = ({
       </div>
       <div className="divider" />
       <div className="piccolo-agent">
-        <div className="title-area">PICCOLO Agent</div>
+        {/* <div className="title-area">PICCOLO Agent</div> */}
         <div className="ai-area">
           <div className="ai-symbol" />
           <div className="chat-area">
