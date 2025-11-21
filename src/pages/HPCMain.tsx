@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Dashboard from '../components/Dashboard';
 import AiWindow from '../components/AiWindow';
+import popImage from '../assets/images/pop.png';
 import {
   getKeyState,
   getContainerNames,
@@ -21,6 +22,7 @@ const HPCMain = ({}: HPCMainProps) => {
   const [keyState, setKeyState] = useState<number>(0);
   const [containerNames, setContainerNames] = useState<string[]>([]);
   const [previousKeyState, setPreviousKeyState] = useState<number>(-1);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   useEffect(() => {
     const imagesToPreload = [
@@ -120,7 +122,9 @@ const HPCMain = ({}: HPCMainProps) => {
             await postDrivingStatus('MD');
             break;
           case 4:
-            console.log('KeyState 4: Calling postDrivingStatus(PK) and postScene4');
+            console.log(
+              'KeyState 4: Calling postDrivingStatus(PK) and postScene4',
+            );
             await postDrivingStatus('PK');
             await postScene4();
             break;
@@ -144,7 +148,32 @@ const HPCMain = ({}: HPCMainProps) => {
     setIsAiWindowOpen(false);
   };
 
+  const handleBatteryClick = () => {
+    setIsPopupOpen(true);
+  };
+
+  const handlePopupClose = () => {
+    setIsPopupOpen(false);
+  };
+
   const gear = keyState === 4 ? 'P' : 'D';
+
+  // battery-indicator 스타일 (keyState 9일 때)
+  const batteryIndicatorStyle =
+    keyState === 9
+      ? {
+          borderColor: '#5C4AFF',
+          borderWidth: '8px',
+          borderRadius: '24px',
+          borderStyle: 'solid',
+          boxSizing: 'border-box' as const,
+        }
+      : {
+          borderWidth: '8px',
+          borderStyle: 'solid',
+          borderColor: 'transparent',
+          boxSizing: 'border-box' as const,
+        };
 
   return (
     <div id="hpc-main">
@@ -164,7 +193,38 @@ const HPCMain = ({}: HPCMainProps) => {
       {!isAiWindowOpen && (
         <div className="ai-button" onClick={handleAiButtonClick} />
       )}
-      <div className="battery-indicator" />
+      <div
+        className="battery-indicator"
+        style={batteryIndicatorStyle}
+        onClick={handleBatteryClick}
+      />
+      {isPopupOpen && (
+        <div
+          className="popup-overlay"
+          onClick={handlePopupClose}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 2000,
+          }}
+        >
+          <img
+            src={popImage}
+            alt="Popup"
+            style={{
+              width: '1086px',
+              height: '619px',
+            }}
+          />
+        </div>
+      )}
       <AiWindow
         keyState={keyState}
         isOpen={isAiWindowOpen}
