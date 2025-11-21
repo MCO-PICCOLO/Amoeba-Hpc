@@ -12,6 +12,7 @@ import {
   postScene1,
   postScene2,
   postScene4,
+  postKeyState,
 } from '../utils/RestAPI';
 import './HPCMain.css';
 
@@ -152,7 +153,9 @@ const HPCMain = ({}: HPCMainProps) => {
     setIsPopupOpen(true);
   };
 
-  const handlePopupClose = () => {
+  const handlePopupClose = async () => {
+    await postKeyState('8');
+
     setIsPopupOpen(false);
   };
 
@@ -211,7 +214,7 @@ const HPCMain = ({}: HPCMainProps) => {
             left: 0,
             width: '100%',
             height: '100%',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
