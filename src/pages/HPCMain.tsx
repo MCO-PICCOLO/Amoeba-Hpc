@@ -167,12 +167,15 @@ const HPCMain = ({}: HPCMainProps) => {
           borderRadius: '24px',
           borderStyle: 'solid',
           boxSizing: 'border-box' as const,
+          backgroundClip: 'padding-box' as const,
+          backgroundOrigin: 'padding-box' as const,
         }
       : {
-          borderWidth: '8px',
-          borderStyle: 'solid',
-          borderColor: 'transparent',
+          border: '0.75px solid rgba(255, 255, 255, 0.7)',
+          borderRadius: '22.5px',
           boxSizing: 'border-box' as const,
+          backgroundClip: 'padding-box' as const,
+          backgroundOrigin: 'padding-box' as const,
         };
 
   return (

@@ -78,8 +78,12 @@
   top: 45px;
 
   background-image: url('../assets/images/battery.png');
-  border: 0.75px solid rgba(255, 255, 255, 0.7);
-  border-radius: 22.5px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-clip: padding-box;
+  background-origin: padding-box;
+  /* border는 인라인 스타일로 관리 */
 }
 
 #hpc-main .ai-button {
