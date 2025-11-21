@@ -1,4 +1,4 @@
-#hpc-main {
+﻿#hpc-main {
   position: relative;
   width: 1920px;
   height: 1080px;
@@ -14,7 +14,7 @@
   left: calc(50% - 1194px / 2);
   top: 0px;
 
-  background: url('../assets/images/AD_CAR.png');
+  background: url('../assets/images/AD_CAR.gif');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
