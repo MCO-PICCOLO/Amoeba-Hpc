@@ -36,6 +36,7 @@ const AiWindow = ({
   const [isVideoDisabled, setIsVideoDisabled] = useState(false);
 
   useEffect(() => {
+    console.log('keyState changed:', keyState);
     if (keyState === 0 || keyState === 1 || keyState === 2) {
       setDialog([]);
 

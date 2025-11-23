@@ -159,65 +159,67 @@ export const postDrivingStatus = async (status: string) => {
 };
 
 export const getSound1 = async () => {
-  try {
-    const soundAPI = axios.create({
-      timeout: 60000,
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        Pragma: 'no-cache',
-      },
-    });
-    const response = await soundAPI.get('/sound-api/sound1');
-    return {
-      data: response.data,
-      success: true,
-    };
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error(
-        'getSound1 Axios error:',
-        error.response?.data || error.message,
-      );
-    } else {
-      console.error('getSound1 unknown error:', error);
-    }
-    throw error;
-  } finally {
-    console.log('getSound1 API call completed');
-  }
+  return true;
+  // try {
+  //   const soundAPI = axios.create({
+  //     timeout: 60000,
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       Accept: 'application/json',
+  //       'Cache-Control': 'no-cache, no-store, must-revalidate',
+  //       Pragma: 'no-cache',
+  //     },
+  //   });
+  //   const response = await soundAPI.get('/sound-api/sound1');
+  //   return {
+  //     data: response.data,
+  //     success: true,
+  //   };
+  // } catch (error) {
+  //   if (axios.isAxiosError(error)) {
+  //     console.error(
+  //       'getSound1 Axios error:',
+  //       error.response?.data || error.message,
+  //     );
+  //   } else {
+  //     console.error('getSound1 unknown error:', error);
+  //   }
+  //   throw error;
+  // } finally {
+  //   console.log('getSound1 API call completed');
+  // }
 };
 
 export const getSound2 = async () => {
-  try {
-    const soundAPI = axios.create({
-      timeout: 60000,
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        Pragma: 'no-cache',
-      },
-    });
-    const response = await soundAPI.get('/sound-api/sound2');
-    return {
-      data: response.data,
-      success: true,
-    };
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error(
-        'getSound2 Axios error:',
-        error.response?.data || error.message,
-      );
-    } else {
-      console.error('getSound2 unknown error:', error);
-    }
-    throw error;
-  } finally {
-    console.log('getSound2 API call completed');
-  }
+  return true;
+  // try {
+  //   const soundAPI = axios.create({
+  //     timeout: 60000,
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       Accept: 'application/json',
+  //       'Cache-Control': 'no-cache, no-store, must-revalidate',
+  //       Pragma: 'no-cache',
+  //     },
+  //   });
+  //   const response = await soundAPI.get('/sound-api/sound2');
+  //   return {
+  //     data: response.data,
+  //     success: true,
+  //   };
+  // } catch (error) {
+  //   if (axios.isAxiosError(error)) {
+  //     console.error(
+  //       'getSound2 Axios error:',
+  //       error.response?.data || error.message,
+  //     );
+  //   } else {
+  //     console.error('getSound2 unknown error:', error);
+  //   }
+  //   throw error;
+  // } finally {
+  //   console.log('getSound2 API call completed');
+  // }
 };
 
 export const postYamlArtifact = async (yamlContent: string) => {

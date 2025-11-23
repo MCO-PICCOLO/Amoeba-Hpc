@@ -43,7 +43,6 @@ const HPCMain = ({}: HPCMainProps) => {
         const result = await getContainerNames();
         if (result.success && result.data) {
           setContainerNames(result.data.container_names || []);
-          console.log('Container names loaded:', result.data.container_names);
         }
       } catch (error) {
         console.error('Failed to fetch container names:', error);
@@ -57,25 +56,19 @@ const HPCMain = ({}: HPCMainProps) => {
     const fetchKeyState = async () => {
       try {
         const result = await getKeyState();
-        console.log('API Response:', result); // 전체 응답 로그
 
         if (result.success && result.data) {
           const serverState = result.data.state || result.data;
           const numericState = parseInt(String(serverState), 10);
 
-          console.log(
-            `Raw server state: ${serverState} (type: ${typeof serverState})`,
-          );
-          console.log(
-            `Parsed numeric state: ${numericState} (type: ${typeof numericState})`,
-          );
-          console.log(`Current keyState: ${keyState}`);
-
-          // keyState가 변경되었을 때만 업데이트 및 API 호출
-          if (!isNaN(numericState) && numericState !== keyState) {
-            setPreviousKeyState(keyState);
-            setKeyState(numericState);
-            console.log(`State updated from ${keyState} to: ${numericState}`);
+          if (!isNaN(numericState)) {
+            setKeyState((prevKeyState) => {
+              if (numericState !== prevKeyState) {
+                setTimeout(() => setPreviousKeyState(prevKeyState), 0);
+                return numericState;
+              }
+              return prevKeyState;
+            });
           }
         }
       } catch (error) {
@@ -83,54 +76,48 @@ const HPCMain = ({}: HPCMainProps) => {
       }
     };
 
-    // 즉시 한 번 실행
     fetchKeyState();
-
-    // 1초마다 서버에서 keyState 가져오기
     const interval = setInterval(fetchKeyState, 1000);
 
     return () => {
       clearInterval(interval);
     };
-  }, []); // keyState를 의존성에서 제거
+  }, []);
 
   // keyState 변경 시 API 호출
   useEffect(() => {
     const handleKeyStateChange = async () => {
-      if (previousKeyState === -1) return; // 초기값은 무시
+      if (previousKeyState === -1 || previousKeyState === keyState) return;
 
       try {
         switch (keyState) {
           case 0:
-            console.log(
-              'KeyState 0: Calling postDrivingStatus(AD) and postResetDemo',
-            );
             await postDrivingStatus('AD');
             await postResetDemo();
             break;
           case 1:
-            console.log('KeyState 1: Calling getSound1 and postScene1');
             await getSound1();
             await postScene1();
             break;
           case 2:
-            console.log('KeyState 2: Calling getSound2 and postScene2');
             await getSound2();
             await postScene2();
             break;
           case 3:
-            console.log('KeyState 3: Calling postDrivingStatus(MD)');
             await postDrivingStatus('MD');
+            setTimeout(async () => {
+              await postKeyState('8');
+            }, 3000);
             break;
           case 4:
-            console.log(
-              'KeyState 4: Calling postDrivingStatus(PK) and postScene4',
-            );
             await postDrivingStatus('PK');
             await postScene4();
+            setTimeout(async () => {
+              await postKeyState('8');
+            }, 3000);
             break;
           default:
-            console.log(`KeyState ${keyState}: No action defined`);
+            break;
         }
       } catch (error) {
         console.error(`Error handling keyState ${keyState}:`, error);
@@ -141,7 +128,6 @@ const HPCMain = ({}: HPCMainProps) => {
   }, [keyState, previousKeyState]);
 
   const handleAiButtonClick = () => {
-    console.log('AI button clicked');
     setIsAiWindowOpen(true);
   };
 
