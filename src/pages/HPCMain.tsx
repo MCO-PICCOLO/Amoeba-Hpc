@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import Dashboard from '../components/Dashboard';
 import AiWindow from '../components/AiWindow';
 import popImage from '../assets/images/pop.png';
@@ -27,8 +27,8 @@ const HPCMain = ({}: HPCMainProps) => {
 
   useEffect(() => {
     const imagesToPreload = [
-      '/src/assets/images/AD_CAR.png',
-      '/src/assets/images/MD_CAR.png',
+      '/src/assets/images/AD_CAR.webp',
+      '/src/assets/images/MD_CAR.webp',
       '/src/assets/images/Parking_CAR.png',
     ];
 

@@ -1,4 +1,4 @@
-#hpc-main {
+﻿#hpc-main {
   position: relative;
   width: 1920px;
   height: 1080px;
@@ -14,7 +14,7 @@
   left: calc(50% - 1194px / 2);
   top: 0px;
 
-  background: url('../assets/images/AD_CAR.png');
+  background: url('../assets/images/AD_CAR.webp');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -28,7 +28,7 @@
 }
 
 #hpc-main .car-normal.md-mode {
-  background-image: url('../assets/images/MD_CAR.png');
+  background-image: url('../assets/images/MD_CAR.webp');
 }
 
 #hpc-main .car-normal.parking-mode {
