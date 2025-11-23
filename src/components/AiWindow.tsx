@@ -25,8 +25,8 @@ const AiWindow = ({
       { message: `“Yes”`, speaker: 'User' },
     ],
     [
-      { message: `“Play the XXXX video.”`, speaker: 'User' },
-      { message: `“Shall I play the XXXX video now?”`, speaker: 'AI' },
+      { message: `“Play the video.”`, speaker: 'User' },
+      { message: `“Shall I play the video now?”`, speaker: 'AI' },
       { message: `“Yes”`, speaker: 'User' },
     ],
   ];
