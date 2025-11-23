@@ -1,12 +1,10 @@
 #dashboard {
-  /* top_content */
-
   /* Auto layout */
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   padding: 0px;
-  gap: 32px;
+  /* gap: 32px; */
 
   position: absolute;
   width: 631px;
@@ -22,6 +20,52 @@
   left: calc(50% - 631px / 2 + 363px);
 }
 
+#dashboard .telltale {
+  /* telltale */
+
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0px;
+  gap: 10px;
+
+  width: 160px;
+  height: 160px;
+
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-position: right center;
+
+  background-image: url('../assets/images/telltale.png');
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+#dashboard .ad_md {
+  width: 160px;
+  height: 90px;
+
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-position: left center;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 2;
+  flex-grow: 0;
+}
+
+#dashboard .ad_md.md {
+  background-image: url('../assets/images/md_icon.png');
+}
+
+#dashboard .ad_md.ad {
+  background-image: url('../assets/images/ad_icon.png');
+}
 #dashboard .content-area {
   /* speed */
 
@@ -33,7 +77,8 @@
   padding: 0px;
   gap: 3.75px;
 
-  width: 301.5px;
+  /* width: 230px; */
+  /* width: 301.5px; */
   height: 161.75px;
 
   /* Inside auto layout */

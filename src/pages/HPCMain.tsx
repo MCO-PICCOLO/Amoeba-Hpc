@@ -24,6 +24,9 @@ const HPCMain = ({}: HPCMainProps) => {
   const [containerNames, setContainerNames] = useState<string[]>([]);
   const [previousKeyState, setPreviousKeyState] = useState<number>(-1);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [displayMode, setDisplayMode] = useState<number>(0); // 실제 표시할 모드 (3 or 4)
+  const [carModeClass, setCarModeClass] = useState<string>('ad-mode');
 
   useEffect(() => {
     const imagesToPreload = [
@@ -84,40 +87,31 @@ const HPCMain = ({}: HPCMainProps) => {
     };
   }, []);
 
-  // keyState 변경 시 API 호출
+  // keyState 변경 시 displayMode, carModeClass 업데이트 (AD: 0,1,2 / MD: 3 / Parking: 4 / 9: 변경 없음)
   useEffect(() => {
     const handleKeyStateChange = async () => {
       if (previousKeyState === -1 || previousKeyState === keyState) return;
 
       try {
-        switch (keyState) {
-          case 0:
-            await postDrivingStatus('AD');
-            await postResetDemo();
-            break;
-          case 1:
-            await getSound1();
-            await postScene1();
-            break;
-          case 2:
-            await getSound2();
-            await postScene2();
-            break;
-          case 3:
-            await postDrivingStatus('MD');
-            setTimeout(async () => {
-              await postKeyState('8');
-            }, 3000);
-            break;
-          case 4:
-            await postDrivingStatus('PK');
-            await postScene4();
-            setTimeout(async () => {
-              await postKeyState('8');
-            }, 3000);
-            break;
-          default:
-            break;
+        if ([0, 1, 2].includes(keyState)) {
+          setDisplayMode(1); // AD 모드
+          setCarModeClass('ad-mode');
+          setShowToast(false);
+        } else if (keyState === 3) {
+          setDisplayMode(3); // MD 모드
+          setCarModeClass('md-mode');
+          setShowToast(true);
+          setTimeout(() => setShowToast(false), 5000);
+        } else if (keyState === 4) {
+          setDisplayMode(4); // Parking 모드
+          setCarModeClass('parking-mode');
+          setShowToast(true);
+          setTimeout(() => setShowToast(false), 5000);
+        } else if (keyState == 8 || keyState === 9) {
+          // 특별한 모드 변경 없음
+        } else {
+          setShowToast(false);
+          setCarModeClass('');
         }
       } catch (error) {
         console.error(`Error handling keyState ${keyState}:`, error);
@@ -140,48 +134,45 @@ const HPCMain = ({}: HPCMainProps) => {
   };
 
   const handlePopupClose = async () => {
-    await postKeyState('8');
-
+    postKeyState('8');
     setIsPopupOpen(false);
   };
 
-  const gear = keyState === 4 ? 'P' : 'D';
+  const gear = carModeClass === 'parking-mode' ? 'P' : 'D';
 
   // battery-indicator 스타일 (keyState 9일 때)
   const batteryIndicatorStyle =
     keyState === 9
       ? {
-          borderColor: '#5C4AFF',
-          borderWidth: '8px',
+          outline: '8px solid #5C4AFF',
+          outlineOffset: '0px',
           borderRadius: '24px',
-          borderStyle: 'solid',
-          boxSizing: 'border-box' as const,
-          backgroundClip: 'padding-box' as const,
-          backgroundOrigin: 'padding-box' as const,
         }
       : {
-          border: '0.75px solid rgba(255, 255, 255, 0.7)',
+          outline: '0.75px solid rgba(255, 255, 255, 0.7)',
+          outlineOffset: '0px',
           borderRadius: '22.5px',
-          boxSizing: 'border-box' as const,
-          backgroundClip: 'padding-box' as const,
-          backgroundOrigin: 'padding-box' as const,
         };
 
   return (
     <div id="hpc-main">
       <div
-        className={`car-normal ${isAiWindowOpen ? 'shrink' : ''} ${
-          keyState === 3 ? 'md-mode' : ''
-        } ${keyState === 4 ? 'parking-mode' : ''}`}
+        className={`car-normal ${carModeClass} ${
+          isAiWindowOpen ? 'shrink' : ''
+        }`}
       >
-        {keyState === 3 && (
+        {showToast && displayMode === 3 && (
           <div className="toaster">Video disabled while MD</div>
         )}
-        {keyState === 4 && (
+        {showToast && displayMode === 4 && (
           <div className="toaster">Please check the trunk.</div>
         )}
       </div>
-      <Dashboard gear={gear} isAiWindowOpen={isAiWindowOpen} />
+      <Dashboard
+        gear={gear}
+        mode={carModeClass}
+        isAiWindowOpen={isAiWindowOpen}
+      />
       {!isAiWindowOpen && (
         <div className="ai-button" onClick={handleAiButtonClick} />
       )}

@@ -14,7 +14,7 @@
   left: calc(50% - 1194px / 2);
   top: 0px;
 
-  background: url('../assets/images/AD_CAR.webp');
+  /* background: url('../assets/images/AD_CAR.webp'); */
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -25,6 +25,10 @@
 
 #hpc-main .car-normal.shrink {
   left: calc(1920px - 1194px - 0px);
+}
+
+#hpc-main .car-normal.ad-mode {
+  background-image: url('../assets/images/AD_CAR.webp');
 }
 
 #hpc-main .car-normal.md-mode {
@@ -69,8 +73,6 @@
 }
 
 #hpc-main .battery-indicator {
-  box-sizing: border-box;
-
   position: absolute;
   width: 159px;
   height: 450.5px;
@@ -81,9 +83,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-clip: padding-box;
-  background-origin: padding-box;
-  /* border는 인라인 스타일로 관리 */
+  /* outline은 인라인 스타일로 관리 */
 }
 
 #hpc-main .ai-button {

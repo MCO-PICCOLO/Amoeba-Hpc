@@ -3,10 +3,11 @@ import './Dashboard.css';
 
 interface DashboardProps {
   gear: string;
+  mode: string;
   isAiWindowOpen: boolean;
 }
 
-const Dashboard = ({ gear, isAiWindowOpen }: DashboardProps) => {
+const Dashboard = ({ gear, mode, isAiWindowOpen }: DashboardProps) => {
   const [speed, setSpeed] = useState(30);
   const [targetSpeed, setTargetSpeed] = useState(30);
 
@@ -47,6 +48,7 @@ const Dashboard = ({ gear, isAiWindowOpen }: DashboardProps) => {
 
   return (
     <div id="dashboard" className={isAiWindowOpen ? 'shifted' : ''}>
+      <div className="telltale"></div>
       <div className="content-area">
         <div className="gear-area">
           <div className={`gear-P ${gear === 'P' ? 'active' : ''}`}>P</div>
@@ -59,6 +61,9 @@ const Dashboard = ({ gear, isAiWindowOpen }: DashboardProps) => {
           <div className="unit">km/h</div>
         </div>
       </div>
+      {mode === 'md-mode' && <div className="ad_md md" />}
+      {mode === 'ad-mode' && <div className="ad_md ad" />}
+      {mode === 'park-mode' && <div className="ad_md" />}
     </div>
   );
 };

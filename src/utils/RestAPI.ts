@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export const postKeyState = async (value: string) => {
   try {
+    console.log('postKeyState called with value:', value);
     const relayAPI = axios.create({
       baseURL: '/api-relay',
       timeout: 60000,
@@ -10,23 +11,27 @@ export const postKeyState = async (value: string) => {
         Accept: 'application/json',
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         Pragma: 'no-cache',
+        Expires: '0',
       },
     });
     const payload = { state: value };
+    console.log('postKeyState payload:', payload);
     const response = await relayAPI.post('/key-state', payload);
+    console.log('postKeyState response:', response.data);
     return {
       data: response.data,
       success: true,
     };
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error('postKeyState Axios error:');
+      console.error(
+        'postKeyState Axios error:',
+        error.response?.data || error.message,
+      );
     } else {
       console.error('postKeyState unknown error:', error);
     }
     throw error;
-  } finally {
-    console.log('postKeyState API call completed');
   }
 };
 
@@ -40,9 +45,11 @@ export const getKeyState = async () => {
         Accept: 'application/json',
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         Pragma: 'no-cache',
+        Expires: '0',
       },
     });
-    const response = await relayAPI.get('/key-state');
+    // 캐시 방지용 타임스탬프 추가
+    const response = await relayAPI.get(`/key-state?_t=${Date.now()}`);
     return {
       data: response.data,
       success: true,
@@ -57,8 +64,6 @@ export const getKeyState = async () => {
       console.error('getKeyState unknown error:', error);
     }
     throw error;
-  } finally {
-    console.log('getKeyState API call completed');
   }
 };
 
@@ -72,9 +77,13 @@ export const getFlagVideoDisabled = async () => {
         Accept: 'application/json',
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         Pragma: 'no-cache',
+        Expires: '0',
       },
     });
-    const response = await relayAPI.get('/flag-video-disabled');
+    // 캐시 방지용 타임스탬프 추가
+    const response = await relayAPI.get(
+      `/flag-video-disabled?_t=${Date.now()}`,
+    );
     return {
       data: response.data,
       success: true,
@@ -89,8 +98,6 @@ export const getFlagVideoDisabled = async () => {
       console.error('getFlagVideoDisabled unknown error:', error);
     }
     throw error;
-  } finally {
-    console.log('getFlagVideoDisabled API call completed');
   }
 };
 
@@ -104,9 +111,11 @@ export const getContainerNames = async () => {
         Accept: 'application/json',
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         Pragma: 'no-cache',
+        Expires: '0',
       },
     });
-    const response = await relayAPI.get('/container-names');
+    // 캐시 방지용 타임스탬프 추가
+    const response = await relayAPI.get(`/container-names?_t=${Date.now()}`);
     return {
       data: response.data,
       success: true,
@@ -121,8 +130,6 @@ export const getContainerNames = async () => {
       console.error('getContainerNames unknown error:', error);
     }
     throw error;
-  } finally {
-    console.log('getContainerNames API call completed');
   }
 };
 
@@ -135,6 +142,7 @@ export const postDrivingStatus = async (status: string) => {
         Accept: 'application/json',
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         Pragma: 'no-cache',
+        Expires: '0',
       },
     });
     const payload = { status: status };
@@ -153,8 +161,6 @@ export const postDrivingStatus = async (status: string) => {
       console.error('postDrivingStatus unknown error:', error);
     }
     throw error;
-  } finally {
-    console.log('postDrivingStatus API call completed');
   }
 };
 
@@ -231,6 +237,7 @@ export const postYamlArtifact = async (yamlContent: string) => {
         Accept: 'application/json',
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         Pragma: 'no-cache',
+        Expires: '0',
       },
     });
     const response = await yamlAPI.post('/yaml-api/artifact', yamlContent);
@@ -248,8 +255,6 @@ export const postYamlArtifact = async (yamlContent: string) => {
       console.error('postYamlArtifact unknown error:', error);
     }
     throw error;
-  } finally {
-    console.log('postYamlArtifact API call completed');
   }
 };
 

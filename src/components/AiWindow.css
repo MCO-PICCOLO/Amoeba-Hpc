@@ -189,7 +189,7 @@
   gap: 15px;
 
   width: 546px;
-  height: 495px;
+  height: 500px;
 
   flex: none;
   order: 1;
@@ -208,7 +208,7 @@
   gap: 15px;
 
   width: 546px;
-  height: 173px;
+  height: 160px;
 
   background-image: url('../assets/images/btn-ai.png');
   background-size: auto 100%;
@@ -231,7 +231,7 @@
   gap: 15px;
 
   width: 546px;
-  height: 300px;
+  height: 330px;
 
   /* Inside auto layout */
   flex: none;

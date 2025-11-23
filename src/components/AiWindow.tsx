@@ -61,7 +61,7 @@ const AiWindow = ({
     const checkVideoDisabled = async () => {
       try {
         const response = await getFlagVideoDisabled();
-        setIsVideoDisabled(response.data === true);
+        setIsVideoDisabled(response.data?.flag_video_disabled === true);
       } catch (error) {
         console.error('Failed to get video disabled flag:', error);
         setIsVideoDisabled(false);
@@ -69,7 +69,14 @@ const AiWindow = ({
     };
 
     checkVideoDisabled();
+    const interval = setInterval(checkVideoDisabled, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
+
+  console.log('isVideoDisabled:', isVideoDisabled);
 
   return (
     <div id="ai-window" className={isOpen ? 'open' : ''}>
@@ -82,9 +89,6 @@ const AiWindow = ({
               <div className="text">{name}</div>
             </div>
           ))}
-          {/* <div className="rule">
-            <div className="text">aaaaaaaaaa</div>
-          </div> */}
           {isVideoDisabled && (
             <div
               className="rule"
