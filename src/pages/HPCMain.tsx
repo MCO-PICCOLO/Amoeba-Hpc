@@ -27,7 +27,7 @@ const HPCMain = ({}: HPCMainProps) => {
 
   useEffect(() => {
     const imagesToPreload = [
-      '/src/assets/images/AD_CAR.gif',
+      '/src/assets/images/AD_CAR.webp',
       '/src/assets/images/MD_CAR.png',
       '/src/assets/images/Parking_CAR.png',
     ];
