@@ -20,14 +20,14 @@ const AiWindow = ({
   const scenarioChat = [
     [],
     [
-      { message: `“There’re some bag in the trunk”`, speaker: 'User' },
-      { message: `“Want a screen alert when we get there?”`, speaker: 'AI' },
-      { message: `“Yes”`, speaker: 'User' },
+      { message: '“There’re some bag in the trunk”', speaker: 'User' },
+      { message: '“Want a screen alert when we get there?”', speaker: 'AI' },
+      { message: '“Yes”', speaker: 'User' },
     ],
     [
-      { message: `“Play the video.”`, speaker: 'User' },
-      { message: `“Shall I play the video now?”`, speaker: 'AI' },
-      { message: `“Yes”`, speaker: 'User' },
+      { message: '“Play the video.”', speaker: 'User' },
+      { message: '“Shall I play the video now?”', speaker: 'AI' },
+      { message: '“Yes”', speaker: 'User' },
     ],
   ];
   const [dialog, setDialog] = useState<
