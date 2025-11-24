@@ -208,7 +208,7 @@
   gap: 15px;
 
   width: 546px;
-  height: 160px;
+  height: 173px;
 
   background-image: url('../assets/images/btn-ai.png');
   background-size: auto 100%;
@@ -231,7 +231,7 @@
   gap: 15px;
 
   width: 546px;
-  height: 330px;
+  height: 300px;
 
   /* Inside auto layout */
   flex: none;
