@@ -7,14 +7,13 @@ import { getFlagVideoDisabled } from '../utils/RestAPI';
 interface AiWindowProps {
   keyState?: number;
   isOpen: boolean;
-  onClose: () => void;
+  onClose?: () => void;
   containerNames?: string[];
 }
 
 const AiWindow = ({
   keyState,
   isOpen,
-  onClose,
   containerNames = [],
 }: AiWindowProps) => {
   const scenarioChat = [
@@ -80,7 +79,6 @@ const AiWindow = ({
 
   return (
     <div id="ai-window" className={isOpen ? 'open' : ''}>
-      <div className="close-button" onClick={onClose} />
       <div className="piccolo-rule">
         <div className="title-area">PICCOLO Rule</div>
         <div className="rule-area">

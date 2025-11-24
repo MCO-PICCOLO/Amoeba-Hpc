@@ -12,7 +12,7 @@
   border-radius: 22.5px;
   backdrop-filter: blur(10px);
 
-  transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: left 0s;
   z-index: 1000;
 }
 

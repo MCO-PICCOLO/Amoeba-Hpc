@@ -19,7 +19,7 @@ import './HPCMain.css';
 interface HPCMainProps {}
 
 const HPCMain = ({}: HPCMainProps) => {
-  const [isAiWindowOpen, setIsAiWindowOpen] = useState(false);
+  const isAiWindowOpen = true;
   const [keyState, setKeyState] = useState<number>(0);
   const [containerNames, setContainerNames] = useState<string[]>([]);
   const [previousKeyState, setPreviousKeyState] = useState<number>(-1);
@@ -123,14 +123,6 @@ const HPCMain = ({}: HPCMainProps) => {
     handleKeyStateChange();
   }, [keyState, previousKeyState]);
 
-  const handleAiButtonClick = () => {
-    setIsAiWindowOpen(true);
-  };
-
-  const handleCloseAiWindow = () => {
-    setIsAiWindowOpen(false);
-  };
-
   const handleBatteryClick = () => {
     setIsPopupOpen(true);
   };
@@ -175,9 +167,6 @@ const HPCMain = ({}: HPCMainProps) => {
         mode={carModeClass}
         isAiWindowOpen={isAiWindowOpen}
       />
-      {!isAiWindowOpen && (
-        <div className="ai-button" onClick={handleAiButtonClick} />
-      )}
       <div
         className="battery-indicator"
         style={batteryIndicatorStyle}
@@ -213,7 +202,6 @@ const HPCMain = ({}: HPCMainProps) => {
       <AiWindow
         keyState={keyState}
         isOpen={isAiWindowOpen}
-        onClose={handleCloseAiWindow}
         containerNames={containerNames}
       />
     </div>
