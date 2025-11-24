@@ -46,9 +46,12 @@ const Dashboard = ({ gear, mode, isAiWindowOpen }: DashboardProps) => {
     return () => clearInterval(animationInterval);
   }, [targetSpeed]);
 
+  console.log('mode:', mode);
   return (
     <div id="dashboard" className={isAiWindowOpen ? 'shifted' : ''}>
-      <div className="telltale"></div>
+      <div
+        className={`telltale${mode === 'parking-mode' ? ' parking' : ''}`}
+      ></div>
       <div className="content-area">
         <div className="gear-area">
           <div className={`gear-P ${gear === 'P' ? 'active' : ''}`}>P</div>
@@ -63,7 +66,7 @@ const Dashboard = ({ gear, mode, isAiWindowOpen }: DashboardProps) => {
       </div>
       {mode === 'md-mode' && <div className="ad_md md" />}
       {mode === 'ad-mode' && <div className="ad_md ad" />}
-      {mode === 'park-mode' && <div className="ad_md" />}
+      {mode === 'parking-mode' && <div className="ad_md" />}
     </div>
   );
 };

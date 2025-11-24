@@ -45,6 +45,10 @@
   flex-grow: 0;
 }
 
+#dashboard .telltale.parking {
+  background-image: url('../assets/images/telltale_park.png');
+}
+
 #dashboard .ad_md {
   width: 160px;
   height: 90px;
