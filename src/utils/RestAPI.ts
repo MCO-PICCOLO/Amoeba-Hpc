@@ -81,9 +81,7 @@ export const getFlagVideoDisabled = async () => {
       },
     });
     // 캐시 방지용 타임스탬프 추가
-    const response = await relayAPI.get(
-      `/flag-video-disabled?_t=${Date.now()}`,
-    );
+    const response = await relayAPI.get('/flag-video-disabled');
     return {
       data: response.data,
       success: true,
@@ -115,7 +113,7 @@ export const getContainerNames = async () => {
       },
     });
     // 캐시 방지용 타임스탬프 추가
-    const response = await relayAPI.get(`/container-names?_t=${Date.now()}`);
+    const response = await relayAPI.get('/container-names');
     return {
       data: response.data,
       success: true,

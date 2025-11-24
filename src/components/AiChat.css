@@ -3,15 +3,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 22.5px 15px;
+  /* padding: 22.5px 15px; */
   gap: 7.5px;
   isolation: isolate;
 
   width: 546px;
-  height: 103px;
+  height: 96px;
   /* height: 102px; */
 
-  border-radius: 22.5px;
+  /* border-radius: 22.5px; */
   background-image: url('../assets/images/chat-from-user.png');
   background-size: contain;
   background-repeat: no-repeat;

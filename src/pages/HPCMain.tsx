@@ -40,7 +40,7 @@ const HPCMain = ({}: HPCMainProps) => {
       img.src = src;
     });
 
-    // 컨테이너 이름들 가져오기
+    // 컨테이너 이름들 1초마다 가져오기
     const fetchContainerNames = async () => {
       try {
         const result = await getContainerNames();
@@ -53,6 +53,8 @@ const HPCMain = ({}: HPCMainProps) => {
     };
 
     fetchContainerNames();
+    const interval = setInterval(fetchContainerNames, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
