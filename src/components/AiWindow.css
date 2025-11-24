@@ -149,13 +149,15 @@
   justify-content: flex-end;
   align-items: center;
   padding: 0px;
-  gap: 15px;
+  /* gap: 15px; */
 
   position: absolute;
   width: 546px;
-  height: 495px;
+  /* height: 495px; */
+  min-height: 502px;
   left: 90px;
   top: 525px;
+  /* bottom: 52px; */
 }
 
 #ai-window .piccolo-agent .title-area {
@@ -184,12 +186,12 @@
 #ai-window .piccolo-agent .ai-area {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-end;
   padding: 0px;
   gap: 15px;
 
   width: 546px;
-  height: 500px;
+  /* height: 500px; */
 
   flex: none;
   order: 1;
@@ -197,9 +199,6 @@
 }
 
 #ai-window .piccolo-agent .ai-symbol {
-  /* ai_symbol */
-
-  /* Auto layout */
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -210,7 +209,7 @@
   width: 546px;
   height: 173px;
 
-  background-image: url('../assets/images/btn-ai.png');
+  background-image: url('../assets/images/btn-ai-in-window.png');
   background-size: auto 100%;
   background-position: center;
   background-repeat: no-repeat;
@@ -220,6 +219,8 @@
   order: 0;
   align-self: stretch;
   flex-grow: 0;
+  position: relative;
+  top: -13px;
 }
 
 #ai-window .piccolo-agent .chat-area {
@@ -228,7 +229,7 @@
   justify-content: flex-end;
   align-items: center;
   padding: 0px;
-  gap: 15px;
+  gap: 9px;
 
   width: 546px;
   height: 300px;
