@@ -1,5 +1,5 @@
 # FROM --platform=linux/arm64 node:22.11.0-alpine
-FROM node:22.11.0-alpine
+FROM sdv.lge.com/base/node:22.11.0-alpine
 
 # Set environment variables for writable directories
 ENV VITE_CACHE_DIR=/tmp/.vite
