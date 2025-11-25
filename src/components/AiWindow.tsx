@@ -9,6 +9,7 @@ interface AiWindowProps {
   isOpen: boolean;
   onClose: () => void;
   containerNames?: string[];
+  onVideoDisabledChange?: (isDisabled: boolean) => void;
 }
 
 const AiWindow = ({
@@ -16,6 +17,7 @@ const AiWindow = ({
   isOpen,
   onClose,
   containerNames = [],
+  onVideoDisabledChange,
 }: AiWindowProps) => {
   const scenarioChat = [
     [],
@@ -61,10 +63,17 @@ const AiWindow = ({
     const checkVideoDisabled = async () => {
       try {
         const response = await getFlagVideoDisabled();
-        setIsVideoDisabled(response.data?.flag_video_disabled === true);
+        const disabled = response.data?.flag_video_disabled === true;
+        setIsVideoDisabled(disabled);
+        if (onVideoDisabledChange) {
+          onVideoDisabledChange(disabled);
+        }
       } catch (error) {
         console.error('Failed to get video disabled flag:', error);
         setIsVideoDisabled(false);
+        if (onVideoDisabledChange) {
+          onVideoDisabledChange(false);
+        }
       }
     };
 
@@ -74,7 +83,7 @@ const AiWindow = ({
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [onVideoDisabledChange]);
 
   console.log('isVideoDisabled:', isVideoDisabled);
 

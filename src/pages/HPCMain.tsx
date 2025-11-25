@@ -29,6 +29,7 @@ const HPCMain = ({}: HPCMainProps) => {
   const [displayMode, setDisplayMode] = useState<number>(0); // 실제 표시할 모드 (3 or 4)
   const [carModeClass, setCarModeClass] = useState<string>('ad-mode');
   const [isVideoPlayerVisible, setIsVideoPlayerVisible] = useState(false);
+  const [isVideoDisabled, setIsVideoDisabled] = useState(false);
 
   useEffect(() => {
     const imagesToPreload = [
@@ -102,14 +103,20 @@ const HPCMain = ({}: HPCMainProps) => {
           setCarModeClass('ad-mode');
           setShowToast(false);
           if (keyState === 2) {
-            setIsVideoPlayerVisible(true);
+            setTimeout(() => {
+              setIsVideoPlayerVisible(true);
+            }, 3000);
+          } else if (keyState === 0) {
+            setIsVideoPlayerVisible(false);
           }
         } else if (keyState === 3) {
           setDisplayMode(3); // MD 모드
           setCarModeClass('md-mode');
           setShowToast(true);
           setTimeout(() => setShowToast(false), 5000);
-          setIsVideoPlayerVisible(false);
+          if (isVideoDisabled) {
+            setIsVideoPlayerVisible(false);
+          }
         } else if (keyState === 4) {
           setDisplayMode(4); // Parking 모드
           setCarModeClass('parking-mode');
@@ -144,6 +151,10 @@ const HPCMain = ({}: HPCMainProps) => {
   const handlePopupClose = async () => {
     postKeyState('8');
     setIsPopupOpen(false);
+  };
+
+  const handleVideoDisabledChange = (isDisabled: boolean) => {
+    setIsVideoDisabled(isDisabled);
   };
 
   const gear = carModeClass === 'parking-mode' ? 'P' : 'D';
@@ -221,6 +232,7 @@ const HPCMain = ({}: HPCMainProps) => {
         isOpen={isAiWindowOpen}
         onClose={handleCloseAiWindow}
         containerNames={containerNames}
+        onVideoDisabledChange={handleVideoDisabledChange}
       />
       {isVideoPlayerVisible && (
         <video
