@@ -98,30 +98,24 @@ const HPCMain = ({}: HPCMainProps) => {
       if (previousKeyState === -1 || previousKeyState === keyState) return;
 
       try {
-        if ([0, 1, 2].includes(keyState)) {
+        if ([0, 1, 3].includes(keyState)) {
           setDisplayMode(1); // AD 모드
           setCarModeClass('ad-mode');
           setShowToast(false);
-          if (keyState === 2) {
+          if (keyState === 1) {
             setTimeout(() => {
               setIsVideoPlayerVisible(true);
             }, 3000);
           } else if (keyState === 0) {
             setIsVideoPlayerVisible(false);
           }
-        } else if (keyState === 3) {
-          setDisplayMode(3); // MD 모드
-          setCarModeClass('md-mode');
-          if (isVideoDisabled) {
-            setShowToast(true);
-            setTimeout(() => setShowToast(false), 5000);
-            setIsVideoPlayerVisible(false);
-          }
+        } else if (keyState === 2) {
+          setDisplayMode(1); // AD 모드
+          setCarModeClass('ad-mode');
+          setIsVideoPlayerVisible(false);
         } else if (keyState === 4) {
           setDisplayMode(4); // Parking 모드
           setCarModeClass('parking-mode');
-          setShowToast(true);
-          setTimeout(() => setShowToast(false), 5000);
         } else if (keyState == 8 || keyState === 9) {
           // 특별한 모드 변경 없음
         } else {
@@ -180,7 +174,7 @@ const HPCMain = ({}: HPCMainProps) => {
           isAiWindowOpen ? 'shrink' : ''
         }`}
       >
-        {showToast && displayMode === 3 && (
+        {showToast && displayMode === 2 && (
           <div className="toaster">Video disabled while MD</div>
         )}
         {showToast && displayMode === 4 && (
