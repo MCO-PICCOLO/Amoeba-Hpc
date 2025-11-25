@@ -112,9 +112,9 @@ const HPCMain = ({}: HPCMainProps) => {
         } else if (keyState === 3) {
           setDisplayMode(3); // MD 모드
           setCarModeClass('md-mode');
-          setShowToast(true);
-          setTimeout(() => setShowToast(false), 5000);
           if (isVideoDisabled) {
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 5000);
             setIsVideoPlayerVisible(false);
           }
         } else if (keyState === 4) {
@@ -134,7 +134,7 @@ const HPCMain = ({}: HPCMainProps) => {
     };
 
     handleKeyStateChange();
-  }, [keyState, previousKeyState]);
+  }, [keyState, previousKeyState, isVideoDisabled]);
 
   const handleAiButtonClick = () => {
     setIsAiWindowOpen(true);
