@@ -16,7 +16,7 @@ spec:
   pattern:
     - type: plain
   models:
-    - name: Video
+    - name: Trunk
       node: qm.host
       resources:
         volume:
@@ -25,17 +25,17 @@ spec:
 apiVersion: v1
 kind: Model
 metadata:
-  name: Video
+  name: Trunk
   annotations:
     io.piccolo.annotations.package-type: scene-2
     io.piccolo.annotations.package-name: scene-2
     io.piccolo.annotations.package-network: default
   labels:
-    app: Video
+    app: Trunk
 spec:
   hostNetwork: true
   containers:
-    - name: Player
-      image: sdv.lge.com/2025/video-player:latest
+    - name: Notification
+      image: docker.io/library/alpine:latest
   terminationGracePeriodSeconds: 0
   restartPolicy: Always
