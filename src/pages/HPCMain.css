@@ -108,3 +108,23 @@
   transform: scale(0.95);
   opacity: 0.8;
 }
+
+#hpc-main .video-player {
+  position: absolute;
+  width: 960px;
+  height: 540px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 1500;
+  object-fit: cover;
+}
+
+#hpc-main .video-player {
+  position: absolute;
+  width: 960px;
+  height: 540px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 1500;
+  object-fit: cover;
+}

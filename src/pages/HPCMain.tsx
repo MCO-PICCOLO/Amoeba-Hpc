@@ -2,6 +2,7 @@
 import Dashboard from '../components/Dashboard';
 import AiWindow from '../components/AiWindow';
 import popImage from '../assets/images/pop.png';
+import Video1 from '../assets/videos/Video1.mp4';
 import {
   getKeyState,
   getContainerNames,
@@ -27,6 +28,7 @@ const HPCMain = ({}: HPCMainProps) => {
   const [showToast, setShowToast] = useState(false);
   const [displayMode, setDisplayMode] = useState<number>(0); // 실제 표시할 모드 (3 or 4)
   const [carModeClass, setCarModeClass] = useState<string>('ad-mode');
+  const [isVideoPlayerVisible, setIsVideoPlayerVisible] = useState(false);
 
   useEffect(() => {
     const imagesToPreload = [
@@ -39,6 +41,27 @@ const HPCMain = ({}: HPCMainProps) => {
       const img = new Image();
       img.src = src;
     });
+
+    // NumPad 7 (show video) and NumPad 8 (hide video) keyboard listener
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === '7' && event.location === 3) { // NumPad 7
+        setIsVideoPlayerVisible((prev) => {
+          if (!prev) {
+            return true;
+          }
+          return prev; // Ignore if already visible
+        });
+      } else if (event.key === '8' && event.location === 3) { // NumPad 8
+        setIsVideoPlayerVisible((prev) => {
+          if (prev) {
+            return false;
+          }
+          return prev; // Ignore if already hidden
+        });
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
 
     // 컨테이너 이름들 1초마다 가져오기
     const fetchContainerNames = async () => {
@@ -54,7 +77,10 @@ const HPCMain = ({}: HPCMainProps) => {
 
     fetchContainerNames();
     const interval = setInterval(fetchContainerNames, 1000);
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, []);
 
   useEffect(() => {
@@ -216,6 +242,15 @@ const HPCMain = ({}: HPCMainProps) => {
         onClose={handleCloseAiWindow}
         containerNames={containerNames}
       />
+      {isVideoPlayerVisible && (
+        <video
+          className="video-player"
+          src={Video1}
+          autoPlay
+          loop
+          muted
+        />
+      )}
     </div>
   );
 };
