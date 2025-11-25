@@ -3,6 +3,9 @@ import Dashboard from '../components/Dashboard';
 import AiWindow from '../components/AiWindow';
 import popImage from '../assets/images/pop.png';
 import Video1 from '../assets/videos/Video1.mp4';
+import parkingImage from '../assets/images/Parking_CAR.png';
+import parkingImageafter from '../assets/images/Parking_CAR_O.webp';
+
 import {
   getKeyState,
   getContainerNames,
@@ -30,6 +33,7 @@ const HPCMain = ({}: HPCMainProps) => {
   const [carModeClass, setCarModeClass] = useState<string>('ad-mode');
   const [isVideoPlayerVisible, setIsVideoPlayerVisible] = useState(false);
   const [isVideoDisabled, setIsVideoDisabled] = useState(false);
+  const [parkingStage, setParkingStage] = useState<number>(0); // 0: not parking, 1: initial, 2: after 2s
   
   useEffect(() => {
     const imagesToPreload = [
@@ -102,6 +106,7 @@ const HPCMain = ({}: HPCMainProps) => {
           setDisplayMode(1); // AD 모드
           setCarModeClass('ad-mode');
           setShowToast(false);
+          setParkingStage(0); // Reset parking stage
           if (keyState === 1) {
             setTimeout(() => {
               setIsVideoPlayerVisible(true);
@@ -112,10 +117,15 @@ const HPCMain = ({}: HPCMainProps) => {
         } else if (keyState === 2) {
           setDisplayMode(1); // AD 모드
           setCarModeClass('ad-mode');
+          setParkingStage(0); // Reset parking stage
           setIsVideoPlayerVisible(false);
         } else if (keyState === 4) {
           setDisplayMode(4); // Parking 모드
           setCarModeClass('parking-mode');
+          setParkingStage(1); // Start with parking.png
+          setTimeout(() => {
+            setParkingStage(2); // Change to parking_after.webp after 2 seconds
+          }, 2000);
         } else if (keyState == 8 || keyState === 9) {
           // 특별한 모드 변경 없음
         } else {
@@ -153,6 +163,12 @@ const HPCMain = ({}: HPCMainProps) => {
 
   const gear = carModeClass === 'parking-mode' ? 'P' : 'D';
 
+  // parking mode background image based on stage
+  const parkingBackgroundImage =
+    parkingStage === 1 ? `url(${parkingImage})` :
+    parkingStage === 2 ? `url(${parkingImageafter})` :
+    'none';
+
   // battery-indicator 스타일 (keyState 9일 때)
   const batteryIndicatorStyle =
     keyState === 9
@@ -173,6 +189,9 @@ const HPCMain = ({}: HPCMainProps) => {
         className={`car-normal ${carModeClass} ${
           isAiWindowOpen ? 'shrink' : ''
         }`}
+        style={carModeClass === 'parking-mode' ? {
+          backgroundImage: parkingBackgroundImage,
+        } : {}}
       >
         {showToast && displayMode === 2 && (
           <div className="toaster">Video disabled while MD</div>
