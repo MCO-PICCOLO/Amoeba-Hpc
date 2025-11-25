@@ -44,14 +44,14 @@ const HPCMain = ({}: HPCMainProps) => {
 
     // NumPad 7 (show video) and NumPad 8 (hide video) keyboard listener
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === '7' && event.location === 3) { // NumPad 7
+      if (event.key === 'a' && event.location === 0) { // NumPad 7
         setIsVideoPlayerVisible((prev) => {
           if (!prev) {
             return true;
           }
           return prev; // Ignore if already visible
         });
-      } else if (event.key === '8' && event.location === 3) { // NumPad 8
+      } else if (event.key === 'b' && event.location === 0) { // NumPad 8
         setIsVideoPlayerVisible((prev) => {
           if (prev) {
             return false;
