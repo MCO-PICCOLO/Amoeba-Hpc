@@ -42,27 +42,6 @@ const HPCMain = ({}: HPCMainProps) => {
       img.src = src;
     });
 
-    // NumPad 7 (show video) and NumPad 8 (hide video) keyboard listener
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === '7' && event.location === 3) { // NumPad 7
-        setIsVideoPlayerVisible((prev) => {
-          if (!prev) {
-            return true;
-          }
-          return prev; // Ignore if already visible
-        });
-      } else if (event.key === '8' && event.location === 3) { // NumPad 8
-        setIsVideoPlayerVisible((prev) => {
-          if (prev) {
-            return false;
-          }
-          return prev; // Ignore if already hidden
-        });
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-
     // 컨테이너 이름들 1초마다 가져오기
     const fetchContainerNames = async () => {
       try {
@@ -77,10 +56,7 @@ const HPCMain = ({}: HPCMainProps) => {
 
     fetchContainerNames();
     const interval = setInterval(fetchContainerNames, 1000);
-    return () => {
-      clearInterval(interval);
-      window.removeEventListener('keydown', handleKeyDown);
-    };
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -125,11 +101,15 @@ const HPCMain = ({}: HPCMainProps) => {
           setDisplayMode(1); // AD 모드
           setCarModeClass('ad-mode');
           setShowToast(false);
+          if (keyState === 2) {
+            setIsVideoPlayerVisible(true);
+          }
         } else if (keyState === 3) {
           setDisplayMode(3); // MD 모드
           setCarModeClass('md-mode');
           setShowToast(true);
           setTimeout(() => setShowToast(false), 5000);
+          setIsVideoPlayerVisible(false);
         } else if (keyState === 4) {
           setDisplayMode(4); // Parking 모드
           setCarModeClass('parking-mode');
