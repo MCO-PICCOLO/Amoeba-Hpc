@@ -37,9 +37,16 @@ const AiWindow = ({
     Array<{ message: string; speaker: string }>
   >([]);
   const [isVideoDisabled, setIsVideoDisabled] = useState(false);
+  const [showVideoDisabledImage, setShowVideoDisabledImage] = useState(false);
 
   useEffect(() => {
     console.log('keyState changed:', keyState);
+    if (keyState === 2) {
+      setShowVideoDisabledImage(true);
+    } else if (keyState === 0) {
+      setShowVideoDisabledImage(false);
+    }
+
     if (keyState === 0 || keyState === 1 || keyState === 2 || keyState === 3) {
       setDialog([]);
 
@@ -99,7 +106,7 @@ const AiWindow = ({
               <div className="text">{name}</div>
             </div>
           ))}
-          {isVideoDisabled && (
+          {showVideoDisabledImage && (
             <div
               className="rule"
               style={{
