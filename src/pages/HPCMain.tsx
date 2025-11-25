@@ -240,7 +240,6 @@ const HPCMain = ({}: HPCMainProps) => {
           src={Video1}
           autoPlay
           loop
-          muted
         />
       )}
     </div>
