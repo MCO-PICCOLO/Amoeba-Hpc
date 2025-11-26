@@ -4,8 +4,6 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: hpc-app
-    ports:
-      - "5174:5174"
     volumes:
       - .:/app
       - /app/node_modules
