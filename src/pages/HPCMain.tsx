@@ -34,7 +34,17 @@ const HPCMain = ({}: HPCMainProps) => {
   const [isVideoPlayerVisible, setIsVideoPlayerVisible] = useState(false);
   const [isVideoDisabled, setIsVideoDisabled] = useState(false);
   const [parkingStage, setParkingStage] = useState<number>(0); // 0: not parking, 1: initial, 2: after 2s
+  const [trunkActive, setTrunkActive] = useState<boolean>(false); // trunk notification active when key 3 pressed until key 0
   
+  useEffect(() => {
+    // Update trunkActive whenever keyState changes: key 3 activates trunk notification, key 0 deactivates it
+    if (keyState === 3) {
+      setTrunkActive(true);
+    } else if (keyState === 0) {
+      setTrunkActive(false);
+    }
+  }, [keyState]);
+
   useEffect(() => {
     const imagesToPreload = [
       '/src/assets/images/AD_CAR.webp',
@@ -74,7 +84,7 @@ const HPCMain = ({}: HPCMainProps) => {
           const numericState = parseInt(String(serverState), 10);
 
           if (!isNaN(numericState)) {
-            setKeyState((prevKeyState) => {
+            setKeyState((prevKeyState: number) => {
               if (numericState !== prevKeyState) {
                 setTimeout(() => setPreviousKeyState(prevKeyState), 0);
                 return numericState;
@@ -122,10 +132,11 @@ const HPCMain = ({}: HPCMainProps) => {
         } else if (keyState === 4) {
           setDisplayMode(4); // Parking 모드
           setCarModeClass('parking-mode');
-          setParkingStage(1); // Start with parking.png
-          setTimeout(() => {
-            setParkingStage(2); // Change to parking_after.webp after 2 seconds
-          }, 2000);
+          // If trunk notification was executed (key 3 pressed and not yet reset by key 0), show parking_after (O.webp).
+          // Otherwise show the normal parking image (Parking_CAR.png).
+          // Use trunkActive state or previousKeyState === 3 as a fallback to determine recent trunk trigger.
+          const trunkWasTriggered = trunkActive || previousKeyState === 3;
+          setParkingStage(trunkWasTriggered ? 2 : 1);
         } else if (keyState == 8 || keyState === 9) {
           // 특별한 모드 변경 없음
         } else {
@@ -164,10 +175,11 @@ const HPCMain = ({}: HPCMainProps) => {
   const gear = carModeClass === 'parking-mode' ? 'P' : 'D';
 
   // parking mode background image based on stage
-  const parkingBackgroundImage =
-    parkingStage === 1 ? `url(${parkingImage})` :
-    parkingStage === 2 ? `url(${parkingImageafter})` :
-    'none';
+  const parkingBackgroundImage = (() => {
+    if (carModeClass !== 'parking-mode') return 'none';
+    // parkingStage 2 means show the _after_ image (Parking_CAR_O.webp)
+    return parkingStage === 2 ? `url(${parkingImageafter})` : `url(${parkingImage})`;
+  })();
 
   // battery-indicator 스타일 (keyState 9일 때)
   const batteryIndicatorStyle =
