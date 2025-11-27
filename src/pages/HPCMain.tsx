@@ -2,16 +2,29 @@
 import Dashboard from '../components/Dashboard';
 import AiWindow from '../components/AiWindow';
 import popImage from '../assets/images/pop.png';
+import Video1 from '../assets/videos/Video1.mp4';
+import parkingImage from '../assets/images/Parking_CAR.png';
+import parkingImageafter from '../assets/images/Parking_CAR_O.webp';
+import {
+  KeyState,
+  DisplayMode,
+  CarMode,
+  ParkingStage,
+  type KeyStateType,
+  type DisplayModeType,
+  type CarModeType,
+  type ParkingStageType,
+} from '../constants/AppConstants';
 import {
   getKeyState,
   getContainerNames,
-  postDrivingStatus,
-  postResetDemo,
-  getSound1,
-  getSound2,
-  postScene1,
-  postScene2,
-  postScene4,
+  //postDrivingStatus,
+  //postResetDemo,
+  //getSound1,
+  //getSound2,
+  //postScene1,
+  //postScene2,
+  //postScene4,
   postKeyState,
 } from '../utils/RestAPI';
 import './HPCMain.css';
@@ -20,13 +33,16 @@ interface HPCMainProps {}
 
 const HPCMain = ({}: HPCMainProps) => {
   const [isAiWindowOpen, setIsAiWindowOpen] = useState(false);
-  const [keyState, setKeyState] = useState<number>(0);
+  const [keyState, setKeyState] = useState<KeyStateType>(KeyState.RESET);
   const [containerNames, setContainerNames] = useState<string[]>([]);
-  const [previousKeyState, setPreviousKeyState] = useState<number>(-1);
+  const [previousKeyState, setPreviousKeyState] = useState<KeyStateType | -1>(-1);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
-  const [displayMode, setDisplayMode] = useState<number>(0); // 실제 표시할 모드 (3 or 4)
-  const [carModeClass, setCarModeClass] = useState<string>('ad-mode');
+  const [displayMode, setDisplayMode] = useState<DisplayModeType>(DisplayMode.INITIAL);
+  const [carModeClass, setCarModeClass] = useState<CarModeType>(CarMode.AD);
+  const [isVideoPlayerVisible, setIsVideoPlayerVisible] = useState(false);
+  const [isVideoDisabled, setIsVideoDisabled] = useState(false);
+  const [parkingStage, setParkingStage] = useState<ParkingStageType>(ParkingStage.NONE);
 
   useEffect(() => {
     const imagesToPreload = [
@@ -69,8 +85,8 @@ const HPCMain = ({}: HPCMainProps) => {
           if (!isNaN(numericState)) {
             setKeyState((prevKeyState) => {
               if (numericState !== prevKeyState) {
-                setTimeout(() => setPreviousKeyState(prevKeyState), 0);
-                return numericState;
+                setTimeout(() => setPreviousKeyState(prevKeyState as KeyStateType), 0);
+                return numericState as KeyStateType;
               }
               return prevKeyState;
             });
@@ -95,25 +111,42 @@ const HPCMain = ({}: HPCMainProps) => {
       if (previousKeyState === -1 || previousKeyState === keyState) return;
 
       try {
-        if ([0, 1, 2].includes(keyState)) {
-          setDisplayMode(1); // AD 모드
-          setCarModeClass('ad-mode');
-          setShowToast(false);
-        } else if (keyState === 3) {
-          setDisplayMode(3); // MD 모드
-          setCarModeClass('md-mode');
-          setShowToast(true);
-          setTimeout(() => setShowToast(false), 5000);
-        } else if (keyState === 4) {
-          setDisplayMode(4); // Parking 모드
-          setCarModeClass('parking-mode');
-          setShowToast(true);
-          setTimeout(() => setShowToast(false), 5000);
-        } else if (keyState == 8 || keyState === 9) {
+        if (keyState === KeyState.RESET) {
+          setDisplayMode(DisplayMode.AD_MODE);
+          setCarModeClass(CarMode.AD);
+          setParkingStage(ParkingStage.NONE);
+          setIsVideoPlayerVisible(false);
+        } else if (keyState === KeyState.VIDEO_PLAY) {
+          setDisplayMode(DisplayMode.AD_MODE);
+          setCarModeClass(CarMode.AD);
+          setParkingStage(ParkingStage.NONE);
+            setTimeout(() => {
+              setIsVideoPlayerVisible(true);
+            }, 3000);
+        } else if (keyState === KeyState.APPLY_POLICY) {
+          setDisplayMode(DisplayMode.AD_MODE);
+          setCarModeClass(CarMode.AD);
+          setParkingStage(ParkingStage.NONE);
+          setIsVideoPlayerVisible(false);
+        } else if (keyState === KeyState.NOTI_TRUNK) {
+          setDisplayMode(DisplayMode.AD_MODE);
+          setCarModeClass(CarMode.AD);
+          setParkingStage(ParkingStage.NONE);
+        }
+        else if (keyState === KeyState.PARKING) {
+          setDisplayMode(DisplayMode.PARKING_MODE);
+          setCarModeClass(CarMode.PARKING);
+          setParkingStage(ParkingStage.INITIAL);
+          if (previousKeyState === KeyState.NOTI_TRUNK) {
+            setTimeout(() => {
+              setParkingStage(ParkingStage.AFTER_DELAY);
+            }, 1000);
+          }
+        } else if (keyState === KeyState.BATTERY_CLOSE || keyState === KeyState.BATTERY_HIGHLIGHT) {
           // 특별한 모드 변경 없음
         } else {
           setShowToast(false);
-          setCarModeClass('');
+          setCarModeClass(CarMode.AD);
         }
       } catch (error) {
         console.error(`Error handling keyState ${keyState}:`, error);
@@ -121,7 +154,7 @@ const HPCMain = ({}: HPCMainProps) => {
     };
 
     handleKeyStateChange();
-  }, [keyState, previousKeyState]);
+  }, [keyState, previousKeyState, isVideoDisabled]);
 
   const handleAiButtonClick = () => {
     setIsAiWindowOpen(true);
@@ -136,15 +169,26 @@ const HPCMain = ({}: HPCMainProps) => {
   };
 
   const handlePopupClose = async () => {
-    postKeyState('8');
+    postKeyState(String(KeyState.BATTERY_CLOSE));
     setIsPopupOpen(false);
+  };
+
+  const handleVideoDisabledChange = (isDisabled: boolean) => {
+    setIsVideoDisabled(isDisabled);
   };
 
   const gear = carModeClass === 'parking-mode' ? 'P' : 'D';
 
+  // parking mode background image based on stage
+  const parkingBackgroundImage = (() => {
+    if (carModeClass !== CarMode.PARKING) return 'none';
+    // parkingStage 2 means show the _after_ image (Parking_CAR_O.webp)
+    return parkingStage === ParkingStage.AFTER_DELAY ? `url(${parkingImageafter})` : `url(${parkingImage})`;
+  })();
+
   // battery-indicator 스타일 (keyState 9일 때)
   const batteryIndicatorStyle =
-    keyState === 9
+    keyState === KeyState.BATTERY_HIGHLIGHT
       ? {
           outline: '8px solid #5C4AFF',
           outlineOffset: '0px',
@@ -162,11 +206,14 @@ const HPCMain = ({}: HPCMainProps) => {
         className={`car-normal ${carModeClass} ${
           isAiWindowOpen ? 'shrink' : ''
         }`}
+        style={carModeClass === CarMode.PARKING ? {
+          backgroundImage: parkingBackgroundImage,
+        } : {}}
       >
-        {showToast && displayMode === 3 && (
+        {showToast && displayMode === DisplayMode.MD_MODE && (
           <div className="toaster">Video disabled while MD</div>
         )}
-        {showToast && displayMode === 4 && (
+        {showToast && displayMode === DisplayMode.PARKING_MODE && (
           <div className="toaster">Please check the trunk.</div>
         )}
       </div>
@@ -215,7 +262,16 @@ const HPCMain = ({}: HPCMainProps) => {
         isOpen={isAiWindowOpen}
         onClose={handleCloseAiWindow}
         containerNames={containerNames}
+        onVideoDisabledChange={handleVideoDisabledChange}
       />
+      {isVideoPlayerVisible && (
+        <video
+          className="video-player"
+          src={Video1}
+          autoPlay
+          loop
+        />
+      )}
     </div>
   );
 };

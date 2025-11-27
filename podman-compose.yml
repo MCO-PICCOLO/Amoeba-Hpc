@@ -1,0 +1,16 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hpc-app
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - VITE_CACHE_DIR=/tmp/.vite
+      - NODE_ENV=development
+    command: npm run dev -- --force
+    stdin_open: true
+    tty: true
+    network_mode: host

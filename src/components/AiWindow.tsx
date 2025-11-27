@@ -9,6 +9,7 @@ interface AiWindowProps {
   isOpen: boolean;
   onClose: () => void;
   containerNames?: string[];
+  onVideoDisabledChange?: (isDisabled: boolean) => void;
 }
 
 const AiWindow = ({
@@ -16,28 +17,37 @@ const AiWindow = ({
   isOpen,
   onClose,
   containerNames = [],
+  onVideoDisabledChange,
 }: AiWindowProps) => {
   const scenarioChat = [
     [],
     [
-      { message: '“There’re some bag in the trunk”', speaker: 'User' },
-      { message: '“Want a screen alert when we get there?”', speaker: 'AI' },
-      { message: '“Yes”', speaker: 'User' },
+      { message: '"Play the video."', speaker: 'User' },
+      { message: '"Shall I play the video now?"', speaker: 'AI' },
+      { message: '"Yes"', speaker: 'User' },
     ],
+    [],
     [
-      { message: '“Play the video.”', speaker: 'User' },
-      { message: '“Shall I play the video now?”', speaker: 'AI' },
-      { message: '“Yes”', speaker: 'User' },
+      { message: '"There\'re some bag in the trunk"', speaker: 'User' },
+      { message: '"Want a screen alert when we get there?"', speaker: 'AI' },
+      { message: '"Yes"', speaker: 'User' },
     ],
   ];
   const [dialog, setDialog] = useState<
     Array<{ message: string; speaker: string }>
   >([]);
   const [isVideoDisabled, setIsVideoDisabled] = useState(false);
+  const [showVideoDisabledImage, setShowVideoDisabledImage] = useState(false);
 
   useEffect(() => {
     console.log('keyState changed:', keyState);
-    if (keyState === 0 || keyState === 1 || keyState === 2) {
+    if (keyState === 2) {
+      setShowVideoDisabledImage(true);
+    } else if (keyState === 0) {
+      setShowVideoDisabledImage(false);
+    }
+
+    if (keyState === 0 || keyState === 1 || keyState === 2 || keyState === 3) {
       setDialog([]);
 
       const fullDialog = scenarioChat[keyState || 0] || [];
@@ -61,10 +71,17 @@ const AiWindow = ({
     const checkVideoDisabled = async () => {
       try {
         const response = await getFlagVideoDisabled();
-        setIsVideoDisabled(response.data?.flag_video_disabled === true);
+        const disabled = response.data?.flag_video_disabled === true;
+        setIsVideoDisabled(disabled);
+        if (onVideoDisabledChange) {
+          onVideoDisabledChange(disabled);
+        }
       } catch (error) {
         console.error('Failed to get video disabled flag:', error);
         setIsVideoDisabled(false);
+        if (onVideoDisabledChange) {
+          onVideoDisabledChange(false);
+        }
       }
     };
 
@@ -74,7 +91,7 @@ const AiWindow = ({
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [onVideoDisabledChange]);
 
   console.log('isVideoDisabled:', isVideoDisabled);
 
@@ -89,7 +106,7 @@ const AiWindow = ({
               <div className="text">{name}</div>
             </div>
           ))}
-          {isVideoDisabled && (
+          {showVideoDisabledImage && (
             <div
               className="rule"
               style={{
