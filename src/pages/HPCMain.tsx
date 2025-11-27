@@ -5,6 +5,7 @@ import popImage from '../assets/images/pop.png';
 import Video1 from '../assets/videos/Video1.mp4';
 import parkingImage from '../assets/images/Parking_CAR.png';
 import parkingImageafter from '../assets/images/Parking_CAR_O.webp';
+import adIcon from '../assets/images/ad_icon.png';
 import {
   KeyState,
   DisplayMode,
@@ -43,6 +44,8 @@ const HPCMain = ({}: HPCMainProps) => {
   const [isVideoPlayerVisible, setIsVideoPlayerVisible] = useState(false);
   const [isVideoDisabled, setIsVideoDisabled] = useState(false);
   const [parkingStage, setParkingStage] = useState<ParkingStageType>(ParkingStage.NONE);
+  const [adIconY, setAdIconY] = useState(0);
+  const [adIconDirection, setAdIconDirection] = useState(1); // 1 for down, -1 for up
 
   useEffect(() => {
     const imagesToPreload = [
@@ -55,6 +58,9 @@ const HPCMain = ({}: HPCMainProps) => {
       const img = new Image();
       img.src = src;
     });
+
+    // Set random initial Y position for ad icon
+    setAdIconY(Math.random() * 980); // 1080 - 100 (max icon size)
 
     // 컨테이너 이름들 1초마다 가져오기
     const fetchContainerNames = async () => {
@@ -72,6 +78,35 @@ const HPCMain = ({}: HPCMainProps) => {
     const interval = setInterval(fetchContainerNames, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  // Ad icon vertical animation with size scaling
+  useEffect(() => {
+    const maxSize = 150;
+    const speed = 2;
+
+    const animationFrame = setInterval(() => {
+      setAdIconY((prevY) => {
+        let newY = prevY + speed * adIconDirection;
+        
+        // Bounce at top and bottom
+        if (newY <= 0) {
+          setAdIconDirection(1);
+          return 0;
+        }
+        if (newY >= 1080 - maxSize) {
+          setAdIconDirection(-1);
+          return 1080 - maxSize;
+        }
+        
+        return newY;
+      });
+    }, 16); // ~60fps
+
+    return () => clearInterval(animationFrame);
+  }, [adIconDirection]);
+
+  // Calculate icon size based on Y position (larger at bottom, smaller at top)
+  const adIconSize = 50 + (adIconY / 1080) * 100; // Size ranges from 50px to 150px
 
   useEffect(() => {
     const fetchKeyState = async () => {
@@ -272,6 +307,17 @@ const HPCMain = ({}: HPCMainProps) => {
           loop
         />
       )}
+      <img
+        src={adIcon}
+        alt="Moving Ad"
+        className="moving-ad-icon"
+        style={{
+          left: `${1920 / 2 - adIconSize / 2}px`,
+          top: `${adIconY}px`,
+          width: `${adIconSize}px`,
+          height: `${adIconSize}px`,
+        }}
+      />
     </div>
   );
 };
