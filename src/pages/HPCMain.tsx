@@ -5,7 +5,7 @@ import popImage from '../assets/images/pop.png';
 import Video1 from '../assets/videos/Video1.mp4';
 import parkingImage from '../assets/images/Parking_CAR.png';
 import parkingImageafter from '../assets/images/Parking_CAR_O.webp';
-import adIcon from '../assets/images/ad_icon.png';
+import adIcon from '../assets/images/F_CAR.png';
 import {
   KeyState,
   DisplayMode,
