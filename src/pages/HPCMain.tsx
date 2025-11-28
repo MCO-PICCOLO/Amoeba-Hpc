@@ -59,8 +59,10 @@ const HPCMain = ({}: HPCMainProps) => {
       img.src = src;
     });
 
-    // Set random initial Y position for ad icon
-    setAdIconY(Math.random() * 980); // 1080 - 100 (max icon size)
+    // Set random initial Y position for ad icon (below dashboard)
+    const dashboardBottom = 210;
+    const maxIconSize = 600; // 4x larger
+    setAdIconY(dashboardBottom + Math.random() * (1080 - dashboardBottom - maxIconSize));
 
     // 컨테이너 이름들 1초마다 가져오기
     const fetchContainerNames = async () => {
@@ -81,17 +83,18 @@ const HPCMain = ({}: HPCMainProps) => {
 
   // Ad icon vertical animation with size scaling
   useEffect(() => {
-    const maxSize = 150;
+    const dashboardBottom = 210; // Dashboard ends at ~207px, add some margin
+    const maxSize = 600; // 4x larger: was 150, now 600
     const speed = 2;
 
     const animationFrame = setInterval(() => {
       setAdIconY((prevY) => {
         let newY = prevY + speed * adIconDirection;
         
-        // Bounce at top and bottom
-        if (newY <= 0) {
+        // Bounce at dashboard bottom and screen bottom
+        if (newY <= dashboardBottom) {
           setAdIconDirection(1);
-          return 0;
+          return dashboardBottom;
         }
         if (newY >= 1080 - maxSize) {
           setAdIconDirection(-1);
@@ -106,7 +109,13 @@ const HPCMain = ({}: HPCMainProps) => {
   }, [adIconDirection]);
 
   // Calculate icon size based on Y position (larger at bottom, smaller at top)
-  const adIconSize = 50 + (adIconY / 1080) * 100; // Size ranges from 50px to 150px
+  // Adjust calculation to work with new range (210px to 480px) - 4x larger: 200px to 600px
+  const adIconSize = 200 + ((adIconY - 210) / (1080 - 210)) * 400; // Size ranges from 200px to 600px
+
+  // Calculate X position for lane (perspective effect - lanes converge at top)
+  // At top (y=210): narrower lane offset, At bottom (y=480): wider lane offset
+  const laneOffsetFromCenter = 50 + ((adIconY - 210) / (1080 - 210)) * 100; // Offset: 50px to 150px from center
+  const carX = (1920 / 2) - laneOffsetFromCenter - (adIconSize / 2); // Left lane position
 
   useEffect(() => {
     const fetchKeyState = async () => {
@@ -251,6 +260,17 @@ const HPCMain = ({}: HPCMainProps) => {
         {showToast && displayMode === DisplayMode.PARKING_MODE && (
           <div className="toaster">Please check the trunk.</div>
         )}
+        <img
+          src={adIcon}
+          alt="Moving Car"
+          className="moving-ad-icon"
+          style={{
+            left: `${carX}px`,
+            top: `${adIconY}px`,
+            width: `${adIconSize}px`,
+            height: `${adIconSize}px`,
+          }}
+        />
       </div>
       <Dashboard
         gear={gear}
@@ -307,17 +327,6 @@ const HPCMain = ({}: HPCMainProps) => {
           loop
         />
       )}
-      <img
-        src={adIcon}
-        alt="Moving Ad"
-        className="moving-ad-icon"
-        style={{
-          left: `${1920 / 2 - adIconSize / 2}px`,
-          top: `${adIconY}px`,
-          width: `${adIconSize}px`,
-          height: `${adIconSize}px`,
-        }}
-      />
     </div>
   );
 };
