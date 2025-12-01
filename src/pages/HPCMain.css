@@ -119,12 +119,10 @@
   object-fit: cover;
 }
 
-#hpc-main .video-player {
+#hpc-main .moving-car {
   position: absolute;
-  width: 960px;
-  height: 540px;
-  right: 0px;
-  bottom: 0px;
-  z-index: 1500;
-  object-fit: cover;
+  z-index: 2000;
+  pointer-events: none;
+  transition: none;
+  object-fit: contain;
 }
