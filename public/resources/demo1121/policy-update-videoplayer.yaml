@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Scenario
 metadata:
-  name: policy-update-videoplayer 
+  name: policy-update-videoplayer
 spec:
-  condition:null
+  condition: null
   action: update
   target: policy-update-videoplayer
 ---
