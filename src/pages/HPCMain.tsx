@@ -1,12 +1,12 @@
-﻿import { useState, useEffect } from 'react';
-import Dashboard from '../components/Dashboard';
-import AiWindow from '../components/AiWindow';
-import popImage from '../assets/images/pop.png';
-import Video1 from '../assets/videos/Video1.mp4';
-import parkingImage from '../assets/images/Parking_CAR.png';
-import parkingImageafter from '../assets/images/Parking_CAR_O.webp';
-import leftCarImage from '../assets/images/left_car.png';
-import rightCarImage from '../assets/images/right_car.png';
+﻿import { useState, useEffect } from "react";
+import Dashboard from "../components/Dashboard";
+import AiWindow from "../components/AiWindow";
+import popImage from "../assets/images/pop.png";
+import Video1 from "../assets/videos/Video1.mp4";
+import parkingImage from "../assets/images/Parking_CAR.png";
+import parkingImageafter from "../assets/images/Parking_CAR_O.webp";
+import leftCarImage from "../assets/images/left_car.png";
+import rightCarImage from "../assets/images/right_car.png";
 import {
   KeyState,
   DisplayMode,
@@ -16,7 +16,7 @@ import {
   type DisplayModeType,
   type CarModeType,
   type ParkingStageType,
-} from '../constants/AppConstants';
+} from "../constants/AppConstants";
 import {
   getKeyState,
   getContainerNames,
@@ -28,8 +28,8 @@ import {
   //postScene2,
   //postScene4,
   postKeyState,
-} from '../utils/RestAPI';
-import './HPCMain.css';
+} from "../utils/RestAPI";
+import "./HPCMain.css";
 
 interface HPCMainProps {}
 
@@ -37,14 +37,20 @@ const HPCMain = ({}: HPCMainProps) => {
   const [isAiWindowOpen, setIsAiWindowOpen] = useState(false);
   const [keyState, setKeyState] = useState<KeyStateType>(KeyState.RESET);
   const [containerNames, setContainerNames] = useState<string[]>([]);
-  const [previousKeyState, setPreviousKeyState] = useState<KeyStateType | -1>(-1);
+  const [previousKeyState, setPreviousKeyState] = useState<KeyStateType | -1>(
+    -1,
+  );
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
-  const [displayMode, setDisplayMode] = useState<DisplayModeType>(DisplayMode.INITIAL);
+  const [displayMode, setDisplayMode] = useState<DisplayModeType>(
+    DisplayMode.INITIAL,
+  );
   const [carModeClass, setCarModeClass] = useState<CarModeType>(CarMode.AD);
   const [isVideoPlayerVisible, setIsVideoPlayerVisible] = useState(false);
   const [isVideoDisabled, setIsVideoDisabled] = useState(false);
-  const [parkingStage, setParkingStage] = useState<ParkingStageType>(ParkingStage.NONE);
+  const [parkingStage, setParkingStage] = useState<ParkingStageType>(
+    ParkingStage.NONE,
+  );
 
   // ===== CAR MOVEMENT CONFIGURATION =====
   const LEFT_CAR_BASE_SIZE = 200; // Base size in pixels at the top (smallest)
@@ -52,18 +58,24 @@ const HPCMain = ({}: HPCMainProps) => {
   const PERSPECTIVE = 0.5; // Size increase per pixel of Y movement (perspective effect)
   const BASE_SPEED = 1; // Base speed in pixels per frame
   const SPEED_RANDOMNESS = 0.3; // Random variation in speed (±30%)
-  
+
   // Left car coordinates
-  const LEFT_CAR_POINT1 = { x:  250, y: 200 };
-  const LEFT_CAR_POINT2 = { x:  -50, y: 600 };
-  
+  const LEFT_CAR_POINT1 = { x: 250, y: 200 };
+  const LEFT_CAR_POINT2 = { x: -50, y: 600 };
+
   // Right car coordinates
   const RIGHT_CAR_POINT1 = { x: 730, y: 300 };
   const RIGHT_CAR_POINT2 = { x: 830, y: 700 };
   // ======================================
 
-  const [leftCarPosition, setLeftCarPosition] = useState({ x: LEFT_CAR_POINT1.x, y: LEFT_CAR_POINT1.y });
-  const [rightCarPosition, setRightCarPosition] = useState({ x: RIGHT_CAR_POINT1.x, y: RIGHT_CAR_POINT1.y });
+  const [leftCarPosition, setLeftCarPosition] = useState({
+    x: LEFT_CAR_POINT1.x,
+    y: LEFT_CAR_POINT1.y,
+  });
+  const [rightCarPosition, setRightCarPosition] = useState({
+    x: RIGHT_CAR_POINT1.x,
+    y: RIGHT_CAR_POINT1.y,
+  });
   const [leftCarMovingTo2, setLeftCarMovingTo2] = useState(true);
   const [rightCarMovingTo2, setRightCarMovingTo2] = useState(true);
   const [leftCarSpeed, setLeftCarSpeed] = useState(BASE_SPEED);
@@ -71,9 +83,9 @@ const HPCMain = ({}: HPCMainProps) => {
 
   useEffect(() => {
     const imagesToPreload = [
-      '/src/assets/images/AD_CAR.webp',
-      '/src/assets/images/MD_CAR.webp',
-      '/src/assets/images/Parking_CAR.png',
+      "/src/assets/images/AD_CAR.webp",
+      "/src/assets/images/MD_CAR.webp",
+      "/src/assets/images/Parking_CAR.png",
     ];
 
     imagesToPreload.forEach((src) => {
@@ -89,7 +101,7 @@ const HPCMain = ({}: HPCMainProps) => {
           setContainerNames(result.data.container_names || []);
         }
       } catch (error) {
-        console.error('Failed to fetch container names:', error);
+        console.error("Failed to fetch container names:", error);
       }
     };
 
@@ -121,7 +133,7 @@ const HPCMain = ({}: HPCMainProps) => {
         const baseTarget = leftCarMovingTo2 ? LEFT_CAR_POINT2 : LEFT_CAR_POINT1;
         const target = {
           x: baseTarget.x,
-          y: baseTarget.y
+          y: baseTarget.y,
         };
 
         const dx = target.x - prev.x;
@@ -159,16 +171,18 @@ const HPCMain = ({}: HPCMainProps) => {
   useEffect(() => {
     const animationFrame = setInterval(() => {
       setRightCarPosition((prev) => {
-        const baseTarget = rightCarMovingTo2 ? RIGHT_CAR_POINT2 : RIGHT_CAR_POINT1;
+        const baseTarget = rightCarMovingTo2
+          ? RIGHT_CAR_POINT2
+          : RIGHT_CAR_POINT1;
         const target = {
           x: baseTarget.x,
-          y: baseTarget.y
+          y: baseTarget.y,
         };
-        
+
         const dx = target.x - prev.x;
         const dy = target.y - prev.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        
+
         const ratio = rightCarSpeed / distance;
         return {
           x: prev.x + dx * ratio,
@@ -192,7 +206,10 @@ const HPCMain = ({}: HPCMainProps) => {
           if (!isNaN(numericState)) {
             setKeyState((prevKeyState) => {
               if (numericState !== prevKeyState) {
-                setTimeout(() => setPreviousKeyState(prevKeyState as KeyStateType), 0);
+                setTimeout(
+                  () => setPreviousKeyState(prevKeyState as KeyStateType),
+                  0,
+                );
                 return numericState as KeyStateType;
               }
               return prevKeyState;
@@ -200,7 +217,7 @@ const HPCMain = ({}: HPCMainProps) => {
           }
         }
       } catch (error) {
-        console.error('Failed to fetch key state from server:', error);
+        console.error("Failed to fetch key state from server:", error);
       }
     };
 
@@ -227,9 +244,9 @@ const HPCMain = ({}: HPCMainProps) => {
           setDisplayMode(DisplayMode.AD_MODE);
           setCarModeClass(CarMode.AD);
           setParkingStage(ParkingStage.NONE);
-            setTimeout(() => {
-              setIsVideoPlayerVisible(true);
-            }, 3000);
+          setTimeout(() => {
+            setIsVideoPlayerVisible(true);
+          }, 3000);
         } else if (keyState === KeyState.APPLY_POLICY) {
           setDisplayMode(DisplayMode.AD_MODE);
           setCarModeClass(CarMode.AD);
@@ -239,8 +256,7 @@ const HPCMain = ({}: HPCMainProps) => {
           setDisplayMode(DisplayMode.AD_MODE);
           setCarModeClass(CarMode.AD);
           setParkingStage(ParkingStage.NONE);
-        }
-        else if (keyState === KeyState.PARKING) {
+        } else if (keyState === KeyState.PARKING) {
           setDisplayMode(DisplayMode.PARKING_MODE);
           setCarModeClass(CarMode.PARKING);
           setParkingStage(ParkingStage.INITIAL);
@@ -249,7 +265,10 @@ const HPCMain = ({}: HPCMainProps) => {
               setParkingStage(ParkingStage.AFTER_DELAY);
             }, 1000);
           }
-        } else if (keyState === KeyState.BATTERY_CLOSE || keyState === KeyState.BATTERY_HIGHLIGHT) {
+        } else if (
+          keyState === KeyState.BATTERY_CLOSE ||
+          keyState === KeyState.BATTERY_HIGHLIGHT
+        ) {
           // 특별한 모드 변경 없음
         } else {
           setShowToast(false);
@@ -288,38 +307,44 @@ const HPCMain = ({}: HPCMainProps) => {
   const leftCarSize = LEFT_CAR_BASE_SIZE + leftCarPosition.y * PERSPECTIVE;
   const rightCarSize = RIGHT_CAR_BASE_SIZE + rightCarPosition.y * PERSPECTIVE;
 
-  const gear = carModeClass === 'parking-mode' ? 'P' : 'D';
+  const gear = carModeClass === "parking-mode" ? "P" : "D";
 
   // parking mode background image based on stage
   const parkingBackgroundImage = (() => {
-    if (carModeClass !== CarMode.PARKING) return 'none';
+    if (carModeClass !== CarMode.PARKING) return "none";
     // parkingStage 2 means show the _after_ image (Parking_CAR_O.webp)
-    return parkingStage === ParkingStage.AFTER_DELAY ? `url(${parkingImageafter})` : `url(${parkingImage})`;
+    return parkingStage === ParkingStage.AFTER_DELAY
+      ? `url(${parkingImageafter})`
+      : `url(${parkingImage})`;
   })();
 
   // battery-indicator 스타일 (keyState 9일 때)
   const batteryIndicatorStyle =
     keyState === KeyState.BATTERY_HIGHLIGHT
       ? {
-          outline: '8px solid #5C4AFF',
-          outlineOffset: '0px',
-          borderRadius: '24px',
+          outline: "8px solid #5C4AFF",
+          outlineOffset: "0px",
+          borderRadius: "24px",
         }
       : {
-          outline: '0.75px solid rgba(255, 255, 255, 0.7)',
-          outlineOffset: '0px',
-          borderRadius: '22.5px',
+          outline: "0.75px solid rgba(255, 255, 255, 0.7)",
+          outlineOffset: "0px",
+          borderRadius: "22.5px",
         };
 
   return (
     <div id="hpc-main">
       <div
         className={`car-normal ${carModeClass} ${
-          isAiWindowOpen ? 'shrink' : ''
+          isAiWindowOpen ? "shrink" : ""
         }`}
-        style={carModeClass === CarMode.PARKING ? {
-          backgroundImage: parkingBackgroundImage,
-        } : {}}
+        style={
+          carModeClass === CarMode.PARKING
+            ? {
+                backgroundImage: parkingBackgroundImage,
+              }
+            : {}
+        }
       >
         {showToast && displayMode === DisplayMode.MD_MODE && (
           <div className="toaster">Video disabled while MD</div>
@@ -368,15 +393,15 @@ const HPCMain = ({}: HPCMainProps) => {
           className="popup-overlay"
           onClick={handlePopupClose}
           style={{
-            position: 'absolute',
+            position: "absolute",
             top: 0,
             left: 0,
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.8)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
             zIndex: 2000,
           }}
         >
@@ -384,8 +409,8 @@ const HPCMain = ({}: HPCMainProps) => {
             src={popImage}
             alt="Popup"
             style={{
-              width: '1086px',
-              height: '619px',
+              width: "1086px",
+              height: "619px",
             }}
           />
         </div>
@@ -398,12 +423,7 @@ const HPCMain = ({}: HPCMainProps) => {
         onVideoDisabledChange={handleVideoDisabledChange}
       />
       {isVideoPlayerVisible && (
-        <video
-          className="video-player"
-          src={Video1}
-          autoPlay
-          loop
-        />
+        <video className="video-player" src={Video1} autoPlay loop />
       )}
     </div>
   );
