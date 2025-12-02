@@ -53,15 +53,15 @@ const HPCMain = ({}: HPCMainProps) => {
   );
 
   // ===== CAR MOVEMENT CONFIGURATION =====
-  const LEFT_CAR_BASE_SIZE = 200; // Base size in pixels at the top (smallest)
+  const LEFT_CAR_BASE_SIZE = 100; // Base size in pixels at the top (smallest)
   const RIGHT_CAR_BASE_SIZE = 100; // Base size in pixels at the top (smallest)
-  const PERSPECTIVE = 0.5; // Size increase per pixel of Y movement (perspective effect)
+  const PERSPECTIVE = 0.7; // Size increase per pixel of Y movement (perspective effect)
   const BASE_SPEED = 1; // Base speed in pixels per frame
   const SPEED_RANDOMNESS = 0.3; // Random variation in speed (±30%)
 
   // Left car coordinates
   const LEFT_CAR_POINT1 = { x: 250, y: 200 };
-  const LEFT_CAR_POINT2 = { x: -50, y: 600 };
+  const LEFT_CAR_POINT2 = { x: -150, y: 600 };
 
   // Right car coordinates
   const RIGHT_CAR_POINT1 = { x: 730, y: 300 };
