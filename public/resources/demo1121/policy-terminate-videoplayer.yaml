@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Scenario
 metadata:
-  name: policy-terminate-videoplayer 
+  name: policy-terminate-videoplayer
 spec:
   condition:
     - value: "MD"

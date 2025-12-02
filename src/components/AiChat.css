@@ -12,7 +12,7 @@
   /* height: 102px; */
 
   /* border-radius: 22.5px; */
-  background-image: url('../assets/images/chat-from-user.png');
+  background-image: url("../assets/images/chat-from-user.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -23,7 +23,7 @@
 }
 
 .ai-chat.from-ai {
-  background-image: url('../assets/images/chat-from-ai.png');
+  background-image: url("../assets/images/chat-from-ai.png");
 }
 
 .ai-chat .text-area {
@@ -40,7 +40,7 @@
   width: 429px;
   margin: 0 auto;
 
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   font-style: normal;
   font-weight: 500;
   font-size: 30px;

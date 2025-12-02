@@ -38,7 +38,7 @@
   background-size: auto;
   background-position: right center;
 
-  background-image: url('../assets/images/telltale.png');
+  background-image: url("../assets/images/telltale.png");
   /* Inside auto layout */
   flex: none;
   order: 0;
@@ -46,7 +46,7 @@
 }
 
 #dashboard .telltale.parking {
-  background-image: url('../assets/images/telltale_park.png');
+  background-image: url("../assets/images/telltale_park.png");
 }
 
 #dashboard .ad_md {
@@ -64,11 +64,11 @@
 }
 
 #dashboard .ad_md.md {
-  background-image: url('../assets/images/md_icon.png');
+  background-image: url("../assets/images/md_icon.png");
 }
 
 #dashboard .ad_md.ad {
-  background-image: url('../assets/images/ad_icon.png');
+  background-image: url("../assets/images/ad_icon.png");
 }
 #dashboard .content-area {
   /* speed */
@@ -117,7 +117,7 @@
   width: 22px;
   height: 36px;
 
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   font-style: normal;
   font-weight: 500;
   font-size: 36px;
@@ -143,7 +143,7 @@
   width: 23px;
   height: 36px;
 
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   font-style: normal;
   font-weight: 500;
   font-size: 36px;
@@ -169,7 +169,7 @@
   width: 26px;
   height: 36px;
 
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   font-style: normal;
   font-weight: 500;
   font-size: 36px;
@@ -195,7 +195,7 @@
   width: 26px;
   height: 36px;
 
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   font-style: normal;
   font-weight: 600;
   font-size: 36px;
@@ -247,7 +247,7 @@
   width: 301.5px;
   height: 90px;
 
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   font-style: normal;
   font-weight: 600;
   font-size: 90px;
@@ -274,7 +274,7 @@
   width: 301.5px;
   height: 32px;
 
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   font-style: normal;
   font-weight: 500;
   font-size: 31.5px;

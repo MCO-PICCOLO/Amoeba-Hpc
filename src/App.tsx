@@ -1,5 +1,5 @@
-import './App.css';
-import HPCMain from './pages/HPCMain';
+import "./App.css";
+import HPCMain from "./pages/HPCMain";
 
 const App = () => <HPCMain />;
 
