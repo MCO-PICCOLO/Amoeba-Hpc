@@ -155,29 +155,29 @@ const HPCMain = ({}: HPCMainProps) => {
   }, []);
 
   // Left car movement animation
-  // useEffect(() => {
-  //   const animationFrame = setInterval(() => {
-  //     setLeftCarPosition((prev) => {
-  //       const baseTarget = leftCarMovingTo2 ? LEFT_CAR_POINT2 : LEFT_CAR_POINT1;
-  //       const target = {
-  //         x: baseTarget.x,
-  //         y: baseTarget.y,
-  //       };
+  useEffect(() => {
+    const animationFrame = setInterval(() => {
+      setLeftCarPosition((prev) => {
+        const baseTarget = leftCarMovingTo2 ? LEFT_CAR_POINT2 : LEFT_CAR_POINT1;
+        const target = {
+          x: baseTarget.x,
+          y: baseTarget.y,
+        };
 
-  //       const dx = target.x - prev.x;
-  //       const dy = target.y - prev.y;
-  //       const distance = Math.sqrt(dx * dx + dy * dy);
+        const dx = target.x - prev.x;
+        const dy = target.y - prev.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
 
-  //       const ratio = leftCarSpeed / distance;
-  //       return {
-  //         x: prev.x + dx * ratio,
-  //         y: prev.y + dy * ratio,
-  //       };
-  //     });
-  //   }, 16); // ~60fps
+        const ratio = leftCarSpeed / distance;
+        return {
+          x: prev.x + dx * ratio,
+          y: prev.y + dy * ratio,
+        };
+      });
+    }, 16); // ~60fps
 
-  //   return () => clearInterval(animationFrame);
-  // }, [leftCarMovingTo2, leftCarSpeed]);
+    return () => clearInterval(animationFrame);
+  }, [leftCarMovingTo2, leftCarSpeed]);
 
   // Right car direction change (every 1 second)
   useEffect(() => {
@@ -196,31 +196,31 @@ const HPCMain = ({}: HPCMainProps) => {
   }, []);
 
   // Right car movement animation
-  // useEffect(() => {
-  //   const animationFrame = setInterval(() => {
-  //     setRightCarPosition((prev) => {
-  //       const baseTarget = rightCarMovingTo2
-  //         ? RIGHT_CAR_POINT2
-  //         : RIGHT_CAR_POINT1;
-  //       const target = {
-  //         x: baseTarget.x,
-  //         y: baseTarget.y,
-  //       };
+  useEffect(() => {
+    const animationFrame = setInterval(() => {
+      setRightCarPosition((prev) => {
+        const baseTarget = rightCarMovingTo2
+          ? RIGHT_CAR_POINT2
+          : RIGHT_CAR_POINT1;
+        const target = {
+          x: baseTarget.x,
+          y: baseTarget.y,
+        };
 
-  //       const dx = target.x - prev.x;
-  //       const dy = target.y - prev.y;
-  //       const distance = Math.sqrt(dx * dx + dy * dy);
+        const dx = target.x - prev.x;
+        const dy = target.y - prev.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
 
-  //       const ratio = rightCarSpeed / distance;
-  //       return {
-  //         x: prev.x + dx * ratio,
-  //         y: prev.y + dy * ratio,
-  //       };
-  //     });
-  //   }, 16); // ~60fps
+        const ratio = rightCarSpeed / distance;
+        return {
+          x: prev.x + dx * ratio,
+          y: prev.y + dy * ratio,
+        };
+      });
+    }, 16); // ~60fps
 
-  //   return () => clearInterval(animationFrame);
-  // }, [rightCarMovingTo2, rightCarSpeed]);
+    return () => clearInterval(animationFrame);
+  }, [rightCarMovingTo2, rightCarSpeed]);
 
   useEffect(() => {
     const fetchKeyState = async () => {
