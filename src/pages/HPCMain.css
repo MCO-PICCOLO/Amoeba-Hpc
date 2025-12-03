@@ -86,6 +86,52 @@
   /* outline은 인라인 스타일로 관리 */
 }
 
+#hpc-main .battery-indicator .battery-percent {
+  /* 52% */
+
+  width: 78px;
+  height: 43px;
+  left: 58px;
+  top: 292px;
+  position: absolute;
+
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 43px;
+  /* identical to box height */
+  text-align: center;
+
+  color: #1d1d1d;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+#hpc-main .battery-indicator .battery-distance {
+  width: 80.5px;
+  height: 29px;
+  top: 388px;
+  right: 39px;
+  position: absolute;
+
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+
+  color: #1d1d1d;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  z-index: 0;
+}
 #hpc-main .ai-button {
   /* ai_button */
 

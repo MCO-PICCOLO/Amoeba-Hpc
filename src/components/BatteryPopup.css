@@ -1,0 +1,97 @@
+#battery-popup {
+  position: absolute;
+  width: 1086px;
+  height: 619px;
+  left: calc(50% - 1086px / 2);
+  top: calc(50% - 619px / 2 + 0.5px);
+
+  /* background: #ffffff; */
+  background-image: url('../assets/images/battery-pop.png');
+  border-radius: 22.5px;
+  /* z-index: 1000; */
+}
+
+#battery-popup .distance {
+  /* 195 */
+
+  position: absolute;
+  width: 158px;
+  height: 112px;
+  left: 126px;
+  top: 306px;
+
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 93.75px;
+  line-height: 112px;
+  /* identical to box height */
+  text-align: right;
+
+  color: #1d1d1d;
+
+  opacity: 0.8;
+}
+
+#battery-popup .percentage {
+  /* 52 */
+
+  position: absolute;
+  width: 64px;
+  height: 63px;
+  left: 166px;
+  top: 428px;
+
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 52.5px;
+  line-height: 63px;
+  /* identical to box height */
+  text-align: right;
+
+  color: #1d1d1d;
+
+  opacity: 0.8;
+}
+
+#battery-popup .life-span {
+  /* Group 1707486437 */
+
+  position: absolute;
+  width: 498px;
+  height: 305px;
+  left: 474px;
+  top: 200px;
+
+  background-image: url('../assets/images/battery-lifespan.png');
+  clip-path: inset(0 100% 0 0);
+  animation: revealLeftToRight 1.5s ease-out forwards;
+}
+
+@keyframes revealLeftToRight {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+#battery-popup .spinning {
+  position: absolute;
+  left: 711px;
+  top: 306px;
+  width: 100px;
+  height: 100px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

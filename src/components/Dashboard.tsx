@@ -8,7 +8,7 @@ interface DashboardProps {
 }
 
 const Dashboard = ({ gear, mode, isAiWindowOpen }: DashboardProps) => {
-  const [speed, setSpeed] = useState(30);
+  const [speed, setSpeed] = useState(60);
   const [targetSpeed, setTargetSpeed] = useState(30);
 
   // 기어가 P로 변경되면 즉시 속도를 0으로 설정
@@ -24,7 +24,7 @@ const Dashboard = ({ gear, mode, isAiWindowOpen }: DashboardProps) => {
       if (gear === 'P') {
         setTargetSpeed(0);
       } else {
-        const randomSpeed = Math.floor(Math.random() * (100 - 20 + 1)) + 20;
+        const randomSpeed = Math.floor(Math.random() * (70 - 60 + 1)) + 60;
         setTargetSpeed(randomSpeed);
       }
     }, 3000);

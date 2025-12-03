@@ -28,6 +28,7 @@ import {
   postKeyState,
 } from '../utils/RestAPI';
 import './HPCMain.css';
+import BatteryPopup from '../components/BatteryPopup';
 
 interface HPCMainProps {}
 
@@ -35,14 +36,38 @@ const HPCMain = ({}: HPCMainProps) => {
   const [isAiWindowOpen, setIsAiWindowOpen] = useState(false);
   const [keyState, setKeyState] = useState<KeyStateType>(KeyState.RESET);
   const [containerNames, setContainerNames] = useState<string[]>([]);
-  const [previousKeyState, setPreviousKeyState] = useState<KeyStateType | -1>(-1);
+  const [previousKeyState, setPreviousKeyState] = useState<KeyStateType | -1>(
+    -1,
+  );
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
-  const [displayMode, setDisplayMode] = useState<DisplayModeType>(DisplayMode.INITIAL);
+  const [displayMode, setDisplayMode] = useState<DisplayModeType>(
+    DisplayMode.INITIAL,
+  );
   const [carModeClass, setCarModeClass] = useState<CarModeType>(CarMode.AD);
   const [isVideoPlayerVisible, setIsVideoPlayerVisible] = useState(false);
   const [isVideoDisabled, setIsVideoDisabled] = useState(false);
-  const [parkingStage, setParkingStage] = useState<ParkingStageType>(ParkingStage.NONE);
+  const [parkingStage, setParkingStage] = useState<ParkingStageType>(
+    ParkingStage.NONE,
+  );
+  const initDistance = 195;
+  const maxDistance = 370;
+  const [curDistance, setCurDistance] = useState(initDistance);
+
+  // curDistance를 1분(60초)에 1씩 감소
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurDistance((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 60000); // 1분 = 60000ms
+    return () => clearInterval(interval);
+  }, []);
+
+  // keyState가 RESET이면 curDistance를 maxDistance로 초기화
+  useEffect(() => {
+    if (keyState === KeyState.RESET) {
+      setCurDistance(initDistance);
+    }
+  }, [keyState]);
 
   useEffect(() => {
     const imagesToPreload = [
@@ -85,7 +110,10 @@ const HPCMain = ({}: HPCMainProps) => {
           if (!isNaN(numericState)) {
             setKeyState((prevKeyState) => {
               if (numericState !== prevKeyState) {
-                setTimeout(() => setPreviousKeyState(prevKeyState as KeyStateType), 0);
+                setTimeout(
+                  () => setPreviousKeyState(prevKeyState as KeyStateType),
+                  0,
+                );
                 return numericState as KeyStateType;
               }
               return prevKeyState;
@@ -120,9 +148,9 @@ const HPCMain = ({}: HPCMainProps) => {
           setDisplayMode(DisplayMode.AD_MODE);
           setCarModeClass(CarMode.AD);
           setParkingStage(ParkingStage.NONE);
-            setTimeout(() => {
-              setIsVideoPlayerVisible(true);
-            }, 3000);
+          setTimeout(() => {
+            setIsVideoPlayerVisible(true);
+          }, 3000);
         } else if (keyState === KeyState.APPLY_POLICY) {
           setDisplayMode(DisplayMode.AD_MODE);
           setCarModeClass(CarMode.AD);
@@ -132,8 +160,7 @@ const HPCMain = ({}: HPCMainProps) => {
           setDisplayMode(DisplayMode.AD_MODE);
           setCarModeClass(CarMode.AD);
           setParkingStage(ParkingStage.NONE);
-        }
-        else if (keyState === KeyState.PARKING) {
+        } else if (keyState === KeyState.PARKING) {
           setDisplayMode(DisplayMode.PARKING_MODE);
           setCarModeClass(CarMode.PARKING);
           setParkingStage(ParkingStage.INITIAL);
@@ -142,7 +169,10 @@ const HPCMain = ({}: HPCMainProps) => {
               setParkingStage(ParkingStage.AFTER_DELAY);
             }, 1000);
           }
-        } else if (keyState === KeyState.BATTERY_CLOSE || keyState === KeyState.BATTERY_HIGHLIGHT) {
+        } else if (
+          keyState === KeyState.BATTERY_CLOSE ||
+          keyState === KeyState.BATTERY_HIGHLIGHT
+        ) {
           // 특별한 모드 변경 없음
         } else {
           setShowToast(false);
@@ -183,7 +213,9 @@ const HPCMain = ({}: HPCMainProps) => {
   const parkingBackgroundImage = (() => {
     if (carModeClass !== CarMode.PARKING) return 'none';
     // parkingStage 2 means show the _after_ image (Parking_CAR_O.webp)
-    return parkingStage === ParkingStage.AFTER_DELAY ? `url(${parkingImageafter})` : `url(${parkingImage})`;
+    return parkingStage === ParkingStage.AFTER_DELAY
+      ? `url(${parkingImageafter})`
+      : `url(${parkingImage})`;
   })();
 
   // battery-indicator 스타일 (keyState 9일 때)
@@ -206,9 +238,13 @@ const HPCMain = ({}: HPCMainProps) => {
         className={`car-normal ${carModeClass} ${
           isAiWindowOpen ? 'shrink' : ''
         }`}
-        style={carModeClass === CarMode.PARKING ? {
-          backgroundImage: parkingBackgroundImage,
-        } : {}}
+        style={
+          carModeClass === CarMode.PARKING
+            ? {
+                backgroundImage: parkingBackgroundImage,
+              }
+            : {}
+        }
       >
         {showToast && displayMode === DisplayMode.MD_MODE && (
           <div className="toaster">Video disabled while MD</div>
@@ -229,7 +265,12 @@ const HPCMain = ({}: HPCMainProps) => {
         className="battery-indicator"
         style={batteryIndicatorStyle}
         onClick={handleBatteryClick}
-      />
+      >
+        <div className="battery-percent">
+          {Math.round((curDistance / maxDistance) * 100)}%
+        </div>
+        <div className="battery-distance">{curDistance} km</div>
+      </div>
       {isPopupOpen && (
         <div
           className="popup-overlay"
@@ -247,14 +288,18 @@ const HPCMain = ({}: HPCMainProps) => {
             zIndex: 2000,
           }}
         >
-          <img
+          <BatteryPopup
+            distance={curDistance}
+            percentage={Math.round((curDistance / maxDistance) * 100)}
+          />
+          {/* <img
             src={popImage}
             alt="Popup"
             style={{
               width: '1086px',
               height: '619px',
             }}
-          />
+          /> */}
         </div>
       )}
       <AiWindow
@@ -265,12 +310,7 @@ const HPCMain = ({}: HPCMainProps) => {
         onVideoDisabledChange={handleVideoDisabledChange}
       />
       {isVideoPlayerVisible && (
-        <video
-          className="video-player"
-          src={Video1}
-          autoPlay
-          loop
-        />
+        <video className="video-player" src={Video1} autoPlay loop />
       )}
     </div>
   );
