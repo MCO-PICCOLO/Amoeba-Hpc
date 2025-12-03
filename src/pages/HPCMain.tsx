@@ -351,11 +351,7 @@ const HPCMain = ({}: HPCMainProps) => {
           outlineOffset: '0px',
           borderRadius: '24px',
         }
-      : {
-          outline: '0.75px solid rgba(255, 255, 255, 0.7)',
-          outlineOffset: '0px',
-          borderRadius: '22.5px',
-        };
+      : {};
 
   return (
     <div id="hpc-main">
@@ -439,7 +435,7 @@ const HPCMain = ({}: HPCMainProps) => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            zIndex: 5000,
+            zIndex: 4000,
           }}
         >
           <BatteryPopup
