@@ -51,9 +51,9 @@ body {
 }
 
 @font-face {
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   font-style: normal;
   font-weight: 1 999;
   font-display: swap;
-  src: url('./assets/fonts/PretendardVariable.woff2') format('woff2-variations');
+  src: url("./assets/fonts/PretendardVariable.woff2") format("woff2-variations");
 }

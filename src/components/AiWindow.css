@@ -30,7 +30,7 @@
   top: 30px;
 
   opacity: 0.5;
-  background-image: url('../assets/images/btn-close.png');
+  background-image: url("../assets/images/btn-close.png");
 }
 
 #ai-window .piccolo-rule {
@@ -57,7 +57,7 @@
   /* width: 255px; */
   height: 45px;
 
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   font-style: normal;
   font-weight: 600;
   font-size: 37.5px;
@@ -103,7 +103,7 @@
   height: 90px;
   border-radius: 30px;
 
-  background-image: url('../assets/images/rule-bg.png');
+  background-image: url("../assets/images/rule-bg.png");
   /* Inside auto layout */
   flex: none;
   order: 2;
@@ -115,7 +115,7 @@
   /* width: 204px; */
   height: 36px;
 
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   font-style: normal;
   font-weight: 500;
   font-size: 30px;
@@ -171,7 +171,7 @@
   width: auto;
   height: 45px;
 
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   font-style: normal;
   font-weight: 600;
   font-size: 37.5px;
@@ -209,7 +209,7 @@
   width: 546px;
   height: 173px;
 
-  background-image: url('../assets/images/btn-ai-in-window.png');
+  background-image: url("../assets/images/btn-ai-in-window.png");
   background-size: auto 100%;
   background-position: center;
   background-repeat: no-repeat;

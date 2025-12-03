@@ -19,9 +19,9 @@ export const DisplayMode = {
 
 // Car mode class constants
 export const CarMode = {
-  AD: 'ad-mode',
-  MD: 'md-mode',
-  PARKING: 'parking-mode',
+  AD: "ad-mode",
+  MD: "md-mode",
+  PARKING: "parking-mode",
 } as const;
 
 // Parking stage constants
@@ -32,7 +32,7 @@ export const ParkingStage = {
 } as const;
 
 // Type definitions
-export type KeyStateType = typeof KeyState[keyof typeof KeyState];
-export type DisplayModeType = typeof DisplayMode[keyof typeof DisplayMode];
-export type CarModeType = typeof CarMode[keyof typeof CarMode];
-export type ParkingStageType = typeof ParkingStage[keyof typeof ParkingStage];
+export type KeyStateType = (typeof KeyState)[keyof typeof KeyState];
+export type DisplayModeType = (typeof DisplayMode)[keyof typeof DisplayMode];
+export type CarModeType = (typeof CarMode)[keyof typeof CarMode];
+export type ParkingStageType = (typeof ParkingStage)[keyof typeof ParkingStage];
