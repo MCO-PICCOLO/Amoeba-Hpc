@@ -84,6 +84,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  z-index: 3000;
   /* outline은 인라인 스타일로 관리 */
 }
 
