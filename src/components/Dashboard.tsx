@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import "./Dashboard.css";
+import { useState, useEffect } from 'react';
+import './Dashboard.css';
 
 interface DashboardProps {
   gear: string;
@@ -9,11 +9,11 @@ interface DashboardProps {
 
 const Dashboard = ({ gear, mode, isAiWindowOpen }: DashboardProps) => {
   const [speed, setSpeed] = useState(60);
-  const [targetSpeed, setTargetSpeed] = useState(30);
+  const [targetSpeed, setTargetSpeed] = useState(65);
 
   // 기어가 P로 변경되면 즉시 속도를 0으로 설정
   useEffect(() => {
-    if (gear === "P") {
+    if (gear === 'P') {
       setSpeed(0);
       setTargetSpeed(0);
     }
@@ -21,7 +21,7 @@ const Dashboard = ({ gear, mode, isAiWindowOpen }: DashboardProps) => {
 
   useEffect(() => {
     const targetInterval = setInterval(() => {
-      if (gear === "P") {
+      if (gear === 'P') {
         setTargetSpeed(0);
       } else {
         const randomSpeed = Math.floor(Math.random() * (70 - 60 + 1)) + 60;
@@ -46,27 +46,27 @@ const Dashboard = ({ gear, mode, isAiWindowOpen }: DashboardProps) => {
     return () => clearInterval(animationInterval);
   }, [targetSpeed]);
 
-  console.log("mode:", mode);
+  console.log('mode:', mode);
   return (
-    <div id="dashboard" className={isAiWindowOpen ? "shifted" : ""}>
+    <div id="dashboard" className={isAiWindowOpen ? 'shifted' : ''}>
       <div
-        className={`telltale${mode === "parking-mode" ? " parking" : ""}`}
+        className={`telltale${mode === 'parking-mode' ? ' parking' : ''}`}
       ></div>
       <div className="content-area">
         <div className="gear-area">
-          <div className={`gear-P ${gear === "P" ? "active" : ""}`}>P</div>
-          <div className={`gear-R ${gear === "R" ? "active" : ""}`}>R</div>
-          <div className={`gear-N ${gear === "N" ? "active" : ""}`}>N</div>
-          <div className={`gear-D ${gear === "D" ? "active" : ""}`}>D</div>
+          <div className={`gear-P ${gear === 'P' ? 'active' : ''}`}>P</div>
+          <div className={`gear-R ${gear === 'R' ? 'active' : ''}`}>R</div>
+          <div className={`gear-N ${gear === 'N' ? 'active' : ''}`}>N</div>
+          <div className={`gear-D ${gear === 'D' ? 'active' : ''}`}>D</div>
         </div>
         <div className="speedometer">
           <div className="speed">{Math.round(speed)}</div>
           <div className="unit">km/h</div>
         </div>
       </div>
-      {mode === "md-mode" && <div className="ad_md md" />}
-      {mode === "ad-mode" && <div className="ad_md ad" />}
-      {mode === "parking-mode" && <div className="ad_md" />}
+      {mode === 'md-mode' && <div className="ad_md md" />}
+      {mode === 'ad-mode' && <div className="ad_md ad" />}
+      {mode === 'parking-mode' && <div className="ad_md" />}
     </div>
   );
 };
