@@ -434,7 +434,7 @@ const HPCMain = ({}: HPCMainProps) => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            zIndex: 2000,
+            zIndex: 4000,
           }}
         >
           <BatteryPopup
