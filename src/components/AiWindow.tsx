@@ -20,27 +20,27 @@ const AiWindow = ({
   onVideoDisabledChange,
 }: AiWindowProps) => {
   const scenarioChat = [
-    [{ message: '"ADAS running with efficient CPU usage."', speaker: 'user' }],
+    [{ message: '"ADAS running with efficient CPU usage."', speaker: 'AI' }],
     [
       {
         message: '"ADAS running with efficient CPU usage."',
-        speaker: 'user',
+        speaker: 'AI',
       },
       {
-        message: '"Safety CPUs overloaded, performance degraded"',
-        speaker: 'user',
+        message: '"Safety CPUs overloaded, performance degraded."',
+        speaker: 'AI',
       },
     ],
     [
       {
         message: '"ADAS running with efficient CPU usage."',
-        speaker: 'user',
+        speaker: 'AI',
       },
       {
-        message: '"Safety CPUs overloaded, performance degraded"',
-        speaker: 'user',
+        message: '"Safety CPUs overloaded, performance degraded."',
+        speaker: 'AI',
       },
-      { message: '"Dynamic CPU reallocation complete"', speaker: 'User' },
+      { message: '"Dynamic CPU reallocation complete."', speaker: 'AI' },
     ],
   ];
   const [dialog, setDialog] = useState<

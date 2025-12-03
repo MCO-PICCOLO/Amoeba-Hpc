@@ -3,7 +3,7 @@
   width: 1920px;
   height: 1080px;
 
-  background-image: url("../assets/images/bg.png");
+  background-image: url('../assets/images/bg.png');
   overflow: hidden;
 }
 
@@ -19,8 +19,7 @@
   background-position: center;
   background-repeat: no-repeat;
 
-  transition:
-    transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
     left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -29,15 +28,15 @@
 }
 
 #hpc-main .car-normal.ad-mode {
-  background-image: url("../assets/images/AD_CAR.webp");
+  background-image: url('../assets/images/AD_CAR.webp');
 }
 
 #hpc-main .car-normal.md-mode {
-  background-image: url("../assets/images/MD_CAR.webp");
+  background-image: url('../assets/images/MD_CAR.webp');
 }
 
 #hpc-main .car-normal.parking-mode {
-  background-image: url("../assets/images/Parking_CAR.png");
+  background-image: url('../assets/images/Parking_CAR.png');
 }
 
 #hpc-main .car-normal .toaster {
@@ -58,7 +57,7 @@
   left: 281.5px;
   top: 238.75px;
 
-  font-family: "Pretendard";
+  font-family: 'Pretendard';
   font-style: normal;
   font-weight: 500;
   font-size: 48px;
@@ -80,7 +79,7 @@
   right: 60px;
   top: 45px;
 
-  background-image: url("../assets/images/battery.png");
+  background-image: url('../assets/images/battery.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -135,6 +134,7 @@
   flex-grow: 0;
   z-index: 0;
 }
+
 #hpc-main .ai-button {
   /* ai_button */
 
@@ -143,11 +143,9 @@
   height: 291px;
   left: 142px;
   top: 705px;
-  background-image: url("../assets/images/btn-ai.png");
+  background-image: url('../assets/images/btn-ai.png');
   cursor: pointer;
-  transition:
-    transform 0.1s ease,
-    opacity 0.2s ease;
+  transition: transform 0.1s ease, opacity 0.2s ease;
 }
 
 #hpc-main .ai-button:hover {

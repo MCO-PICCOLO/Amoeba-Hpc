@@ -39,7 +39,9 @@ interface HPCMainProps {}
 const HPCMain = ({}: HPCMainProps) => {
   const [isAiWindowOpen, setIsAiWindowOpen] = useState(false);
   const [keyState, setKeyState] = useState<KeyStateType>(KeyState.RESET);
-  const [containerNames, setContainerNames] = useState<string[]>([]);
+  const [containerNames, setContainerNames] = useState<string[]>([
+    '"ADAS Active"',
+  ]);
   const [previousKeyState, setPreviousKeyState] = useState<KeyStateType | -1>(
     -1,
   );
@@ -120,20 +122,20 @@ const HPCMain = ({}: HPCMainProps) => {
     });
 
     // 컨테이너 이름들 1초마다 가져오기
-    const fetchContainerNames = async () => {
-      try {
-        const result = await getContainerNames();
-        if (result.success && result.data) {
-          setContainerNames(result.data.container_names || []);
-        }
-      } catch (error) {
-        console.error('Failed to fetch container names:', error);
-      }
-    };
+    // const fetchContainerNames = async () => {
+    //   try {
+    //     const result = await getContainerNames();
+    //     if (result.success && result.data) {
+    //       setContainerNames(result.data.container_names || []);
+    //     }
+    //   } catch (error) {
+    //     console.error('Failed to fetch container names:', error);
+    //   }
+    // };
 
-    fetchContainerNames();
-    const interval = setInterval(fetchContainerNames, 1000);
-    return () => clearInterval(interval);
+    // fetchContainerNames();
+    // const interval = setInterval(fetchContainerNames, 1000);
+    // return () => clearInterval(interval);
   }, []);
 
   // Left car direction change (every 1 second)
@@ -153,29 +155,29 @@ const HPCMain = ({}: HPCMainProps) => {
   }, []);
 
   // Left car movement animation
-  useEffect(() => {
-    const animationFrame = setInterval(() => {
-      setLeftCarPosition((prev) => {
-        const baseTarget = leftCarMovingTo2 ? LEFT_CAR_POINT2 : LEFT_CAR_POINT1;
-        const target = {
-          x: baseTarget.x,
-          y: baseTarget.y,
-        };
+  // useEffect(() => {
+  //   const animationFrame = setInterval(() => {
+  //     setLeftCarPosition((prev) => {
+  //       const baseTarget = leftCarMovingTo2 ? LEFT_CAR_POINT2 : LEFT_CAR_POINT1;
+  //       const target = {
+  //         x: baseTarget.x,
+  //         y: baseTarget.y,
+  //       };
 
-        const dx = target.x - prev.x;
-        const dy = target.y - prev.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+  //       const dx = target.x - prev.x;
+  //       const dy = target.y - prev.y;
+  //       const distance = Math.sqrt(dx * dx + dy * dy);
 
-        const ratio = leftCarSpeed / distance;
-        return {
-          x: prev.x + dx * ratio,
-          y: prev.y + dy * ratio,
-        };
-      });
-    }, 16); // ~60fps
+  //       const ratio = leftCarSpeed / distance;
+  //       return {
+  //         x: prev.x + dx * ratio,
+  //         y: prev.y + dy * ratio,
+  //       };
+  //     });
+  //   }, 16); // ~60fps
 
-    return () => clearInterval(animationFrame);
-  }, [leftCarMovingTo2, leftCarSpeed]);
+  //   return () => clearInterval(animationFrame);
+  // }, [leftCarMovingTo2, leftCarSpeed]);
 
   // Right car direction change (every 1 second)
   useEffect(() => {
@@ -194,31 +196,31 @@ const HPCMain = ({}: HPCMainProps) => {
   }, []);
 
   // Right car movement animation
-  useEffect(() => {
-    const animationFrame = setInterval(() => {
-      setRightCarPosition((prev) => {
-        const baseTarget = rightCarMovingTo2
-          ? RIGHT_CAR_POINT2
-          : RIGHT_CAR_POINT1;
-        const target = {
-          x: baseTarget.x,
-          y: baseTarget.y,
-        };
+  // useEffect(() => {
+  //   const animationFrame = setInterval(() => {
+  //     setRightCarPosition((prev) => {
+  //       const baseTarget = rightCarMovingTo2
+  //         ? RIGHT_CAR_POINT2
+  //         : RIGHT_CAR_POINT1;
+  //       const target = {
+  //         x: baseTarget.x,
+  //         y: baseTarget.y,
+  //       };
 
-        const dx = target.x - prev.x;
-        const dy = target.y - prev.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+  //       const dx = target.x - prev.x;
+  //       const dy = target.y - prev.y;
+  //       const distance = Math.sqrt(dx * dx + dy * dy);
 
-        const ratio = rightCarSpeed / distance;
-        return {
-          x: prev.x + dx * ratio,
-          y: prev.y + dy * ratio,
-        };
-      });
-    }, 16); // ~60fps
+  //       const ratio = rightCarSpeed / distance;
+  //       return {
+  //         x: prev.x + dx * ratio,
+  //         y: prev.y + dy * ratio,
+  //       };
+  //     });
+  //   }, 16); // ~60fps
 
-    return () => clearInterval(animationFrame);
-  }, [rightCarMovingTo2, rightCarSpeed]);
+  //   return () => clearInterval(animationFrame);
+  // }, [rightCarMovingTo2, rightCarSpeed]);
 
   useEffect(() => {
     const fetchKeyState = async () => {
@@ -266,7 +268,9 @@ const HPCMain = ({}: HPCMainProps) => {
           setCarModeClass(CarMode.AD);
           setParkingStage(ParkingStage.NONE);
           setIsVideoPlayerVisible(false);
+          setContainerNames(['"ADAS Active"']);
         } else if (keyState === KeyState.VIDEO_PLAY) {
+          setContainerNames(['"ADAS Active"', '"LKAS Active"']);
           setDisplayMode(DisplayMode.AD_MODE);
           setCarModeClass(CarMode.AD);
           setParkingStage(ParkingStage.NONE);
@@ -274,6 +278,7 @@ const HPCMain = ({}: HPCMainProps) => {
             setIsVideoPlayerVisible(true);
           }, 3000);
         } else if (keyState === KeyState.APPLY_POLICY) {
+          setContainerNames(['"ADAS Active"', '"LKAS Active"']);
           setDisplayMode(DisplayMode.AD_MODE);
           setCarModeClass(CarMode.AD);
           setParkingStage(ParkingStage.NONE);
@@ -292,9 +297,9 @@ const HPCMain = ({}: HPCMainProps) => {
             }, 1000);
           }
         } else if (keyState === KeyState.BATTERY_HIGHLIGHT) {
-          setIsPopupOpen(true);
+          // setIsPopupOpen(true);
         } else if (keyState === KeyState.BATTERY_CLOSE) {
-          setIsPopupOpen(false);
+          // setIsPopupOpen(false);
         } else {
           setShowToast(false);
           setCarModeClass(CarMode.AD);
