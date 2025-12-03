@@ -1,7 +1,6 @@
 ﻿import { useState, useEffect } from 'react';
 import Dashboard from '../components/Dashboard';
 import AiWindow from '../components/AiWindow';
-import popImage from '../assets/images/pop.png';
 import Video1 from '../assets/videos/Video1.mp4';
 import parkingImage from '../assets/images/Parking_CAR.png';
 import parkingImageafter from '../assets/images/Parking_CAR_O.webp';
@@ -292,11 +291,10 @@ const HPCMain = ({}: HPCMainProps) => {
               setParkingStage(ParkingStage.AFTER_DELAY);
             }, 1000);
           }
-        } else if (
-          keyState === KeyState.BATTERY_CLOSE ||
-          keyState === KeyState.BATTERY_HIGHLIGHT
-        ) {
-          // 특별한 모드 변경 없음
+        } else if (keyState === KeyState.BATTERY_HIGHLIGHT) {
+          setIsPopupOpen(true);
+        } else if (keyState === KeyState.BATTERY_CLOSE) {
+          setIsPopupOpen(false);
         } else {
           setShowToast(false);
           setCarModeClass(CarMode.AD);
@@ -420,6 +418,13 @@ const HPCMain = ({}: HPCMainProps) => {
         </div>
         <div className="battery-distance">{curDistance} km</div>
       </div>
+      <AiWindow
+        keyState={keyState}
+        isOpen={isAiWindowOpen}
+        onClose={handleCloseAiWindow}
+        containerNames={containerNames}
+        onVideoDisabledChange={handleVideoDisabledChange}
+      />
       {isPopupOpen && (
         <div
           className="popup-overlay"
@@ -434,30 +439,15 @@ const HPCMain = ({}: HPCMainProps) => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            zIndex: 2000,
+            zIndex: 5000,
           }}
         >
           <BatteryPopup
             distance={curDistance}
             percentage={Math.round((curDistance / maxDistance) * 100)}
           />
-          {/* <img
-            src={popImage}
-            alt="Popup"
-            style={{
-              width: "1086px",
-              height: "619px",
-            }}
-          /> */}
         </div>
       )}
-      <AiWindow
-        keyState={keyState}
-        isOpen={isAiWindowOpen}
-        onClose={handleCloseAiWindow}
-        containerNames={containerNames}
-        onVideoDisabledChange={handleVideoDisabledChange}
-      />
       {isVideoPlayerVisible && (
         <video className="video-player" src={Video1} autoPlay loop />
       )}

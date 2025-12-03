@@ -1,8 +1,8 @@
-﻿import { useState, useEffect } from "react";
-import AiChat from "./AiChat";
-import "./AiWindow.css";
-import videoDisabledImage from "../assets/images/video-disabled.png";
-import { getFlagVideoDisabled } from "../utils/RestAPI";
+﻿import { useState, useEffect } from 'react';
+import AiChat from './AiChat';
+import './AiWindow.css';
+import videoDisabledImage from '../assets/images/Resource-Optimization.png';
+import { getFlagVideoDisabled } from '../utils/RestAPI';
 
 interface AiWindowProps {
   keyState?: number;
@@ -20,17 +20,27 @@ const AiWindow = ({
   onVideoDisabledChange,
 }: AiWindowProps) => {
   const scenarioChat = [
-    [],
+    [{ message: '"ADAS running with efficient CPU usage."', speaker: 'user' }],
     [
-      { message: '"Play the video."', speaker: "User" },
-      { message: '"Shall I play the video now?"', speaker: "AI" },
-      { message: '"Yes"', speaker: "User" },
+      {
+        message: '"ADAS running with efficient CPU usage."',
+        speaker: 'user',
+      },
+      {
+        message: '"Safety CPUs overloaded, performance degraded"',
+        speaker: 'user',
+      },
     ],
-    [],
     [
-      { message: '"There\'re some bag in the trunk"', speaker: "User" },
-      { message: '"Want a screen alert when we get there?"', speaker: "AI" },
-      { message: '"Yes"', speaker: "User" },
+      {
+        message: '"ADAS running with efficient CPU usage."',
+        speaker: 'user',
+      },
+      {
+        message: '"Safety CPUs overloaded, performance degraded"',
+        speaker: 'user',
+      },
+      { message: '"Dynamic CPU reallocation complete"', speaker: 'User' },
     ],
   ];
   const [dialog, setDialog] = useState<
@@ -40,7 +50,7 @@ const AiWindow = ({
   const [showVideoDisabledImage, setShowVideoDisabledImage] = useState(false);
 
   useEffect(() => {
-    console.log("keyState changed:", keyState);
+    console.log('keyState changed:', keyState);
     if (keyState === 2) {
       setShowVideoDisabledImage(true);
     } else if (keyState === 0) {
@@ -48,24 +58,21 @@ const AiWindow = ({
     }
 
     if (keyState === 0 || keyState === 1 || keyState === 2 || keyState === 3) {
-      setDialog([]);
+      setDialog(scenarioChat[keyState] || []);
 
-      const fullDialog = scenarioChat[keyState || 0] || [];
-      const timeouts: number[] = [];
+      // const fullDialog = scenarioChat[keyState || 0] || [];
+      // const timeouts: number[] = [];
 
-      fullDialog.forEach((chat, index) => {
-        const timeoutId = setTimeout(
-          () => {
-            setDialog((prev) => [...prev, chat]);
-          },
-          (index + 1) * 1000,
-        );
-        timeouts.push(timeoutId);
-      });
+      // fullDialog.forEach((chat, index) => {
+      //   const timeoutId = setTimeout(() => {
+      //     setDialog((prev) => [...prev, chat]);
+      //   }, (index + 1) * 1000);
+      //   timeouts.push(timeoutId);
+      // });
 
-      return () => {
-        timeouts.forEach((timeoutId) => clearTimeout(timeoutId));
-      };
+      // return () => {
+      //   timeouts.forEach((timeoutId) => clearTimeout(timeoutId));
+      // };
     }
   }, [keyState]);
 
@@ -80,7 +87,7 @@ const AiWindow = ({
           onVideoDisabledChange(disabled);
         }
       } catch (error) {
-        console.error("Failed to get video disabled flag:", error);
+        console.error('Failed to get video disabled flag:', error);
         setIsVideoDisabled(false);
         if (onVideoDisabledChange) {
           onVideoDisabledChange(false);
@@ -96,10 +103,10 @@ const AiWindow = ({
     };
   }, [onVideoDisabledChange]);
 
-  console.log("isVideoDisabled:", isVideoDisabled);
+  console.log('isVideoDisabled:', isVideoDisabled);
 
   return (
-    <div id="ai-window" className={isOpen ? "open" : ""}>
+    <div id="ai-window" className={isOpen ? 'open' : ''}>
       <div className="close-button" onClick={onClose} />
       <div className="piccolo-rule">
         <div className="title-area">PICCOLO Rule</div>

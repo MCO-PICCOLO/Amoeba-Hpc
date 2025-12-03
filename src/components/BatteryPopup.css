@@ -8,7 +8,7 @@
   /* background: #ffffff; */
   background-image: url('../assets/images/battery-pop.png');
   border-radius: 22.5px;
-  /* z-index: 1000; */
+  z-index: 4000;
 }
 
 #battery-popup .distance {
