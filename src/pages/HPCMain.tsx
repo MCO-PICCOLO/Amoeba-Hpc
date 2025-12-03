@@ -7,6 +7,9 @@ import parkingImage from '../assets/images/Parking_CAR.png';
 import parkingImageafter from '../assets/images/Parking_CAR_O.webp';
 import leftCarImage from '../assets/images/left_car.png';
 import rightCarImage from '../assets/images/right_car.png';
+import batteryPopImage from '../assets/images/battery-pop.png';
+import batteryLifespanImage from '../assets/images/battery-lifespan.png';
+import spinningImage from '../assets/images/spinning.png';
 import {
   KeyState,
   DisplayMode,
@@ -52,6 +55,36 @@ const HPCMain = ({}: HPCMainProps) => {
   const [parkingStage, setParkingStage] = useState<ParkingStageType>(
     ParkingStage.NONE,
   );
+
+  // ===== CAR MOVEMENT CONFIGURATION =====
+  const LEFT_CAR_BASE_SIZE = 100; // Base size in pixels at the top (smallest)
+  const RIGHT_CAR_BASE_SIZE = 100; // Base size in pixels at the top (smallest)
+  const PERSPECTIVE = 0.7; // Size increase per pixel of Y movement (perspective effect)
+  const BASE_SPEED = 1; // Base speed in pixels per frame
+  const SPEED_RANDOMNESS = 0.3; // Random variation in speed (±30%)
+
+  // Left car coordinates
+  const LEFT_CAR_POINT1 = { x: 250, y: 200 };
+  const LEFT_CAR_POINT2 = { x: -150, y: 600 };
+
+  // Right car coordinates
+  const RIGHT_CAR_POINT1 = { x: 730, y: 300 };
+  const RIGHT_CAR_POINT2 = { x: 830, y: 700 };
+  // ======================================
+
+  const [leftCarPosition, setLeftCarPosition] = useState({
+    x: LEFT_CAR_POINT1.x,
+    y: LEFT_CAR_POINT1.y,
+  });
+  const [rightCarPosition, setRightCarPosition] = useState({
+    x: RIGHT_CAR_POINT1.x,
+    y: RIGHT_CAR_POINT1.y,
+  });
+  const [leftCarMovingTo2, setLeftCarMovingTo2] = useState(true);
+  const [rightCarMovingTo2, setRightCarMovingTo2] = useState(true);
+  const [leftCarSpeed, setLeftCarSpeed] = useState(BASE_SPEED);
+  const [rightCarSpeed, setRightCarSpeed] = useState(BASE_SPEED);
+
   const initDistance = 195;
   const maxDistance = 370;
   const [curDistance, setCurDistance] = useState(initDistance);
@@ -76,6 +109,10 @@ const HPCMain = ({}: HPCMainProps) => {
       '/src/assets/images/AD_CAR.webp',
       '/src/assets/images/MD_CAR.webp',
       '/src/assets/images/Parking_CAR.png',
+      // BatteryPopup 관련 이미지 미리 로드
+      batteryPopImage,
+      batteryLifespanImage,
+      spinningImage,
     ];
 
     imagesToPreload.forEach((src) => {
@@ -292,10 +329,6 @@ const HPCMain = ({}: HPCMainProps) => {
   const handleVideoDisabledChange = (isDisabled: boolean) => {
     setIsVideoDisabled(isDisabled);
   };
-
-  // Calculate car sizes based on Y position (perspective effect)
-  const leftCarSize = LEFT_CAR_BASE_SIZE + leftCarPosition.y * PERSPECTIVE;
-  const rightCarSize = RIGHT_CAR_BASE_SIZE + rightCarPosition.y * PERSPECTIVE;
 
   // Calculate car sizes based on Y position (perspective effect)
   const leftCarSize = LEFT_CAR_BASE_SIZE + leftCarPosition.y * PERSPECTIVE;
