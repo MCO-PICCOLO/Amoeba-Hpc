@@ -353,11 +353,7 @@ const HPCMain = ({}: HPCMainProps) => {
           outlineOffset: '0px',
           borderRadius: '24px',
         }
-      : {
-          outline: '0.75px solid rgba(255, 255, 255, 0.7)',
-          outlineOffset: '0px',
-          borderRadius: '22.5px',
-        };
+      : {};
 
   return (
     <div id="hpc-main">
