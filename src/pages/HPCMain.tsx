@@ -284,18 +284,18 @@ const HPCMain = ({}: HPCMainProps) => {
           setParkingStage(ParkingStage.NONE);
           setIsVideoPlayerVisible(false);
         } else if (keyState === KeyState.NOTI_TRUNK) {
-          setDisplayMode(DisplayMode.AD_MODE);
-          setCarModeClass(CarMode.AD);
-          setParkingStage(ParkingStage.NONE);
+          // setDisplayMode(DisplayMode.AD_MODE);
+          // setCarModeClass(CarMode.AD);
+          // setParkingStage(ParkingStage.NONE);
         } else if (keyState === KeyState.PARKING) {
-          setDisplayMode(DisplayMode.PARKING_MODE);
-          setCarModeClass(CarMode.PARKING);
-          setParkingStage(ParkingStage.INITIAL);
-          if (previousKeyState === KeyState.NOTI_TRUNK) {
-            setTimeout(() => {
-              setParkingStage(ParkingStage.AFTER_DELAY);
-            }, 1000);
-          }
+          // setDisplayMode(DisplayMode.PARKING_MODE);
+          // setCarModeClass(CarMode.PARKING);
+          // setParkingStage(ParkingStage.INITIAL);
+          // if (previousKeyState === KeyState.NOTI_TRUNK) {
+          //   setTimeout(() => {
+          //     setParkingStage(ParkingStage.AFTER_DELAY);
+          //   }, 1000);
+          // }
         } else if (keyState === KeyState.BATTERY_HIGHLIGHT) {
           // setIsPopupOpen(true);
         } else if (keyState === KeyState.BATTERY_CLOSE) {
