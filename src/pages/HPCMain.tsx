@@ -54,6 +54,7 @@ const HPCMain = ({}: HPCMainProps) => {
   const [parkingStage, setParkingStage] = useState<ParkingStageType>(
     ParkingStage.NONE,
   );
+  const [lksasMode, setLksasMode] = useState<string>('off');
 
   // ===== CAR MOVEMENT CONFIGURATION =====
   const LEFT_CAR_BASE_SIZE = 60; // Base size in pixels at the top (smallest)
@@ -266,16 +267,19 @@ const HPCMain = ({}: HPCMainProps) => {
           setCarModeClass(CarMode.AD);
           setParkingStage(ParkingStage.NONE);
           setContainerNames(['"ADAS Active"']);
+          setLksasMode('off');
         } else if (keyState === KeyState.VIDEO_PLAY) {
           setContainerNames(['"ADAS Active"', '"LKAS Active"']);
           setDisplayMode(DisplayMode.AD_MODE);
           setCarModeClass(CarMode.AD);
           setParkingStage(ParkingStage.NONE);
+          setLksasMode('warning');
         } else if (keyState === KeyState.APPLY_POLICY) {
           setContainerNames(['"ADAS Active"', '"LKAS Active"']);
           setDisplayMode(DisplayMode.AD_MODE);
           setCarModeClass(CarMode.AD);
           setParkingStage(ParkingStage.NONE);
+          setLksasMode('on');
         } else if (keyState === KeyState.NOTI_TRUNK) {
           // setDisplayMode(DisplayMode.AD_MODE);
           // setCarModeClass(CarMode.AD);
@@ -404,6 +408,21 @@ const HPCMain = ({}: HPCMainProps) => {
       {!isAiWindowOpen && (
         <div className="ai-button" onClick={handleAiButtonClick} />
       )}
+      <div
+        className="battery-indicator"
+        style={batteryIndicatorStyle}
+        onClick={handleBatteryClick}
+      >
+        <div className="battery-percent">
+          {Math.round((curDistance / maxDistance) * 100)}%
+        </div>
+        <div className="battery-distance-area">
+          <div className="distance">{curDistance}</div>
+          <div className="unit">km</div>
+        </div>
+      </div>
+      <div className="adas-indicator" />
+      <div className={`lkas-indicator ${lksasMode}`} />
       <div
         className="battery-indicator"
         style={batteryIndicatorStyle}

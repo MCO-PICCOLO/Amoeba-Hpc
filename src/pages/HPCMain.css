@@ -172,6 +172,34 @@
   color: #1d1d1d;
 }
 
+#hpc-main .adas-indicator {
+  position: absolute;
+
+  top: 540px;
+  right: 75px;
+  width: 126px;
+  height: 81px;
+  background-image: url('../assets/images/adas.png');
+}
+
+#hpc-main .lkas-indicator {
+  position: absolute;
+
+  top: 643px;
+  right: 75px;
+  width: 126px;
+  height: 81px;
+  background-image: url('../assets/images/lkas_off.png');
+}
+
+#hpc-main .lkas-indicator.on {
+  background-image: url('../assets/images/lkas_on.png');
+}
+
+#hpc-main .lkas-indicator.warning {
+  background-image: url('../assets/images/lkas_warning.png');
+}
+
 #hpc-main .ai-button {
   /* ai_button */
 
