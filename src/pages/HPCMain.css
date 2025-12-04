@@ -179,9 +179,16 @@
   right: 75px;
   width: 126px;
   height: 81px;
+  
+}
+
+#hpc-main .adas-indicator.on {
   background-image: url('../assets/images/adas.png');
 }
 
+#hpc-main .adas-indicator.warning {
+  background-image: url('../assets/images/adas_warning.png');
+}
 #hpc-main .lkas-indicator {
   position: absolute;
 

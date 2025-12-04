@@ -56,6 +56,7 @@ const HPCMain = ({}: HPCMainProps) => {
     ParkingStage.NONE,
   );
   const [lksasMode, setLksasMode] = useState<string>('off');
+  const [adasMode, setAdasMode] = useState<string>('on');
 
   // ===== CAR MOVEMENT CONFIGURATION =====
   const LEFT_CAR_BASE_SIZE = 60; // Base size in pixels at the top (smallest)
@@ -301,6 +302,7 @@ const HPCMain = ({}: HPCMainProps) => {
           setContainerNames(['"ADAS Active"']);
           setIsAdasDisabled(false);
           setLksasMode('off');
+          setAdasMode('on');
         } else if (keyState === KeyState.VIDEO_PLAY) {
           setContainerNames(['"ADAS Active"', '"LKAS Active"']);
           setDisplayMode(DisplayMode.AD_MODE);
@@ -308,6 +310,7 @@ const HPCMain = ({}: HPCMainProps) => {
           setParkingStage(ParkingStage.NONE);
           setIsAdasDisabled(true);
           setLksasMode('warning');
+          setAdasMode('warning');
         } else if (keyState === KeyState.APPLY_POLICY) {
           setContainerNames(['"ADAS Active"', '"LKAS Active"']);
           setDisplayMode(DisplayMode.AD_MODE);
@@ -315,6 +318,7 @@ const HPCMain = ({}: HPCMainProps) => {
           setParkingStage(ParkingStage.NONE);
           setIsAdasDisabled(false);
           setLksasMode('on');
+          setAdasMode('on');
         } else if (keyState === KeyState.NOTI_TRUNK) {
           // setDisplayMode(DisplayMode.AD_MODE);
           // setCarModeClass(CarMode.AD);
@@ -460,7 +464,7 @@ const HPCMain = ({}: HPCMainProps) => {
           <div className="unit">km</div>
         </div>
       </div>
-      <div className="adas-indicator" />
+  <div className={`adas-indicator ${adasMode}`} />
       <div className={`lkas-indicator ${lksasMode}`} />
       <div
         className="battery-indicator"
