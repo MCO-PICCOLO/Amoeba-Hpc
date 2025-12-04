@@ -137,6 +137,23 @@ const HPCMain = ({}: HPCMainProps) => {
     // return () => clearInterval(interval);
   }, []);
 
+  // Randomize car positions when ADAS is re-enabled
+  useEffect(() => {
+    if (!isAdasDisabled) {
+      // Generate random position on left car's line
+      const leftT = Math.random(); // Random interpolation factor (0 to 1)
+      const leftNewX = LEFT_CAR_POINT1.x + (LEFT_CAR_POINT2.x - LEFT_CAR_POINT1.x) * leftT;
+      const leftNewY = LEFT_CAR_POINT1.y + (LEFT_CAR_POINT2.y - LEFT_CAR_POINT1.y) * leftT;
+      setLeftCarPosition({ x: leftNewX, y: leftNewY });
+
+      // Generate random position on right car's line
+      const rightT = Math.random(); // Random interpolation factor (0 to 1)
+      const rightNewX = RIGHT_CAR_POINT1.x + (RIGHT_CAR_POINT2.x - RIGHT_CAR_POINT1.x) * rightT;
+      const rightNewY = RIGHT_CAR_POINT1.y + (RIGHT_CAR_POINT2.y - RIGHT_CAR_POINT1.y) * rightT;
+      setRightCarPosition({ x: rightNewX, y: rightNewY });
+    }
+  }, [isAdasDisabled]);
+
   // Left car direction change (every 1 second)
   useEffect(() => {
     if (isAdasDisabled) return; // Stop direction changes when ADAS is disabled
