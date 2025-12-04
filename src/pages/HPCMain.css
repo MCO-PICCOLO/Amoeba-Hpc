@@ -176,6 +176,7 @@
   /* ai_button */
 
   position: absolute;
+  z-index: 3000;
   width: 275px;
   height: 291px;
   left: 142px;
