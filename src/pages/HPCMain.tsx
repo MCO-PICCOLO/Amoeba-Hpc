@@ -1,7 +1,6 @@
 ﻿import { useState, useEffect } from 'react';
 import Dashboard from '../components/Dashboard';
 import AiWindow from '../components/AiWindow';
-import Video1 from '../assets/videos/Video1.mp4';
 import parkingImage from '../assets/images/Parking_CAR.png';
 import parkingImageafter from '../assets/images/Parking_CAR_O.webp';
 import leftCarImage from '../assets/images/left_car.png';
@@ -51,7 +50,6 @@ const HPCMain = ({}: HPCMainProps) => {
     DisplayMode.INITIAL,
   );
   const [carModeClass, setCarModeClass] = useState<CarModeType>(CarMode.AD);
-  const [isVideoPlayerVisible, setIsVideoPlayerVisible] = useState(false);
   const [isVideoDisabled, setIsVideoDisabled] = useState(false);
   const [parkingStage, setParkingStage] = useState<ParkingStageType>(
     ParkingStage.NONE,
@@ -267,22 +265,17 @@ const HPCMain = ({}: HPCMainProps) => {
           setDisplayMode(DisplayMode.AD_MODE);
           setCarModeClass(CarMode.AD);
           setParkingStage(ParkingStage.NONE);
-          setIsVideoPlayerVisible(false);
           setContainerNames(['"ADAS Active"']);
         } else if (keyState === KeyState.VIDEO_PLAY) {
           setContainerNames(['"ADAS Active"', '"LKAS Active"']);
           setDisplayMode(DisplayMode.AD_MODE);
           setCarModeClass(CarMode.AD);
           setParkingStage(ParkingStage.NONE);
-          setTimeout(() => {
-            setIsVideoPlayerVisible(true);
-          }, 3000);
         } else if (keyState === KeyState.APPLY_POLICY) {
           setContainerNames(['"ADAS Active"', '"LKAS Active"']);
           setDisplayMode(DisplayMode.AD_MODE);
           setCarModeClass(CarMode.AD);
           setParkingStage(ParkingStage.NONE);
-          setIsVideoPlayerVisible(false);
         } else if (keyState === KeyState.NOTI_TRUNK) {
           setDisplayMode(DisplayMode.AD_MODE);
           setCarModeClass(CarMode.AD);
@@ -451,9 +444,6 @@ const HPCMain = ({}: HPCMainProps) => {
             percentage={Math.round((curDistance / maxDistance) * 100)}
           />
         </div>
-      )}
-      {isVideoPlayerVisible && (
-        <video className="video-player" src={Video1} autoPlay loop />
       )}
     </div>
   );
