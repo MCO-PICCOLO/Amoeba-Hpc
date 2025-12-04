@@ -113,26 +113,63 @@
   flex-grow: 0;
 }
 
-#hpc-main .battery-indicator .battery-distance {
-  width: 80.5px;
+#hpc-main .battery-indicator .battery-distance-area {
+  /* unit */
+
+  width: 76.5px;
   height: 29px;
-  top: 388px;
-  right: 39px;
+
+  right: 41px;
+  bottom: 38px;
   position: absolute;
+  /* Inside auto layout */
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+#hpc-main .battery-indicator .battery-distance-area .distance {
+  /* 195 */
+
+  position: absolute;
+  width: 41px;
+  height: 29px;
+  left: 0px;
+  top: 0px;
 
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 500;
   font-size: 24px;
   line-height: 29px;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  text-align: right;
 
   color: #1d1d1d;
+}
 
-  /* Inside auto layout */
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  z-index: 0;
+#hpc-main .battery-indicator .battery-distance-area .unit {
+  /* km */
+
+  position: absolute;
+  width: 34px;
+  height: 29px;
+  left: 42.5px;
+  top: 0px;
+
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  text-align: right;
+
+  color: #1d1d1d;
 }
 
 #hpc-main .ai-button {

@@ -417,7 +417,10 @@ const HPCMain = ({}: HPCMainProps) => {
         <div className="battery-percent">
           {Math.round((curDistance / maxDistance) * 100)}%
         </div>
-        <div className="battery-distance">{curDistance} km</div>
+        <div className="battery-distance-area">
+          <div className="distance">{curDistance}</div>
+          <div className="unit">km</div>
+        </div>
       </div>
       <AiWindow
         keyState={keyState}
