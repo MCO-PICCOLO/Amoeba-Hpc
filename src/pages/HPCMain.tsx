@@ -51,6 +51,7 @@ const HPCMain = ({}: HPCMainProps) => {
   );
   const [carModeClass, setCarModeClass] = useState<CarModeType>(CarMode.AD);
   const [isVideoDisabled, setIsVideoDisabled] = useState(false);
+  const [isAdasDisabled, setIsAdasDisabled] = useState(false);
   const [parkingStage, setParkingStage] = useState<ParkingStageType>(
     ParkingStage.NONE,
   );
@@ -138,6 +139,8 @@ const HPCMain = ({}: HPCMainProps) => {
 
   // Left car direction change (every 1 second)
   useEffect(() => {
+    if (isAdasDisabled) return; // Stop direction changes when ADAS is disabled
+    
     const directionChange = setInterval(() => {
       setLeftCarPosition((prev) => {
         const criteria = 0.001 * prev.y + 0.1;
@@ -150,10 +153,12 @@ const HPCMain = ({}: HPCMainProps) => {
     }, 1000); // Every 1 second
 
     return () => clearInterval(directionChange);
-  }, []);
+  }, [isAdasDisabled]);
 
   // Left car movement animation
   useEffect(() => {
+    if (isAdasDisabled) return; // Stop movement when ADAS is disabled
+    
     const animationFrame = setInterval(() => {
       setLeftCarPosition((prev) => {
         const baseTarget = leftCarMovingTo2 ? LEFT_CAR_POINT2 : LEFT_CAR_POINT1;
@@ -175,10 +180,12 @@ const HPCMain = ({}: HPCMainProps) => {
     }, 16); // ~60fps
 
     return () => clearInterval(animationFrame);
-  }, [leftCarMovingTo2, leftCarSpeed]);
+  }, [leftCarMovingTo2, leftCarSpeed, isAdasDisabled]);
 
   // Right car direction change (every 1 second)
   useEffect(() => {
+    if (isAdasDisabled) return; // Stop direction changes when ADAS is disabled
+    
     const directionChange = setInterval(() => {
       setRightCarPosition((prev) => {
         const criteria = 0.001 * prev.y;
@@ -191,10 +198,12 @@ const HPCMain = ({}: HPCMainProps) => {
     }, 1000); // Every 1 second
 
     return () => clearInterval(directionChange);
-  }, []);
+  }, [isAdasDisabled]);
 
   // Right car movement animation
   useEffect(() => {
+    if (isAdasDisabled) return; // Stop movement when ADAS is disabled
+    
     const animationFrame = setInterval(() => {
       setRightCarPosition((prev) => {
         const baseTarget = rightCarMovingTo2
@@ -218,7 +227,7 @@ const HPCMain = ({}: HPCMainProps) => {
     }, 16); // ~60fps
 
     return () => clearInterval(animationFrame);
-  }, [rightCarMovingTo2, rightCarSpeed]);
+  }, [rightCarMovingTo2, rightCarSpeed, isAdasDisabled]);
 
   useEffect(() => {
     const fetchKeyState = async () => {
@@ -266,16 +275,19 @@ const HPCMain = ({}: HPCMainProps) => {
           setCarModeClass(CarMode.AD);
           setParkingStage(ParkingStage.NONE);
           setContainerNames(['"ADAS Active"']);
+          setIsAdasDisabled(false);
         } else if (keyState === KeyState.VIDEO_PLAY) {
           setContainerNames(['"ADAS Active"', '"LKAS Active"']);
           setDisplayMode(DisplayMode.AD_MODE);
           setCarModeClass(CarMode.AD);
           setParkingStage(ParkingStage.NONE);
+          setIsAdasDisabled(true);
         } else if (keyState === KeyState.APPLY_POLICY) {
           setContainerNames(['"ADAS Active"', '"LKAS Active"']);
           setDisplayMode(DisplayMode.AD_MODE);
           setCarModeClass(CarMode.AD);
           setParkingStage(ParkingStage.NONE);
+          setIsAdasDisabled(false);
         } else if (keyState === KeyState.NOTI_TRUNK) {
           // setDisplayMode(DisplayMode.AD_MODE);
           // setCarModeClass(CarMode.AD);
@@ -380,7 +392,9 @@ const HPCMain = ({}: HPCMainProps) => {
             top: `${leftCarPosition.y}px`,
             width: `${leftCarSize}px`,
             height: `${leftCarSize}px`,
-            boxShadow: 'inset 0 0 0 3px rgba(21, 21, 122, 0.8)',
+            boxShadow: isAdasDisabled
+              ? 'inset 0 0 0 5px rgba(214, 4, 4, 0.9)'
+              : 'inset 0 0 0 5px rgba(0, 0, 255, 0.9)',
           }}
         />
         <img
@@ -392,7 +406,9 @@ const HPCMain = ({}: HPCMainProps) => {
             top: `${rightCarPosition.y}px`,
             width: `${rightCarSize}px`,
             height: `${rightCarSize}px`,
-            boxShadow: 'inset 0 0 0 3px rgba(21, 21, 122, 0.8)',
+            boxShadow: isAdasDisabled
+              ? 'inset 0 0 0 5px rgba(214, 4, 4, 0.9)'
+              : 'inset 0 0 0 5px rgba(0, 0, 255, 0.9)',
           }}
         />
       </div>
