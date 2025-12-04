@@ -63,13 +63,14 @@
   flex-grow: 0;
 }
 
-#dashboard .ad_md.md {
+/*#dashboard .ad_md.md {
   background-image: url("../assets/images/md_icon.png");
 }
 
 #dashboard .ad_md.ad {
   background-image: url("../assets/images/ad_icon.png");
-}
+}*/
+
 #dashboard .content-area {
   /* speed */
 
