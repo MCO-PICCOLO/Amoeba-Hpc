@@ -88,6 +88,7 @@ const HPCMain = ({}: HPCMainProps) => {
   const [rightCarMovingTo2, setRightCarMovingTo2] = useState(true);
   const [leftCarSpeed, setLeftCarSpeed] = useState(BASE_SPEED);
   const [rightCarSpeed, setRightCarSpeed] = useState(BASE_SPEED);
+  const [carsVisible, setCarsVisible] = useState(true);
 
   const initDistance = 195;
   const maxDistance = 370;
@@ -145,26 +146,39 @@ const HPCMain = ({}: HPCMainProps) => {
   useEffect(() => {
     if (!isAdasDisabled) {
       // Generate random position on left car's line
-      const leftT = Math.random(); // Random interpolation factor (0 to 1)
+      /*const leftT = Math.random(); // Random interpolation factor (0 to 1)
       const leftNewX =
         LEFT_CAR_POINT1.x + (LEFT_CAR_POINT2.x - LEFT_CAR_POINT1.x) * leftT;
       const leftNewY =
         LEFT_CAR_POINT1.y + (LEFT_CAR_POINT2.y - LEFT_CAR_POINT1.y) * leftT;
-      setLeftCarPosition({ x: leftNewX, y: leftNewY });
+      setLeftCarPosition({ x: leftNewX, y: leftNewY });*/
 
       // Generate random position on right car's line
-      const rightT = Math.random(); // Random interpolation factor (0 to 1)
+      /*const rightT = Math.random(); // Random interpolation factor (0 to 1)
       const rightNewX =
         RIGHT_CAR_POINT1.x + (RIGHT_CAR_POINT2.x - RIGHT_CAR_POINT1.x) * rightT;
       const rightNewY =
         RIGHT_CAR_POINT1.y + (RIGHT_CAR_POINT2.y - RIGHT_CAR_POINT1.y) * rightT;
-      setRightCarPosition({ x: rightNewX, y: rightNewY });
+      setRightCarPosition({ x: rightNewX, y: rightNewY });*/
+    }
+  }, [isAdasDisabled]);
+
+  // Flicker cars when ADAS is disabled
+  useEffect(() => {
+    if (isAdasDisabled) {
+      const flickerInterval = setInterval(() => {
+        setCarsVisible((prev) => !prev);
+      }, 500); // Toggle every 0.5 seconds (1 second period)
+
+      return () => clearInterval(flickerInterval);
+    } else {
+      setCarsVisible(true); // Always visible when ADAS is enabled
     }
   }, [isAdasDisabled]);
 
   // Left car direction change (every 1 second)
   useEffect(() => {
-    if (isAdasDisabled) return; // Stop direction changes when ADAS is disabled
+    //if (isAdasDisabled) return; // Stop direction changes when ADAS is disabled
 
     const directionChange = setInterval(() => {
       setLeftCarPosition((prev) => {
@@ -182,7 +196,7 @@ const HPCMain = ({}: HPCMainProps) => {
 
   // Left car movement animation
   useEffect(() => {
-    if (isAdasDisabled) return; // Stop movement when ADAS is disabled
+    //if (isAdasDisabled) return; // Stop movement when ADAS is disabled
 
     const animationFrame = setInterval(() => {
       setLeftCarPosition((prev) => {
@@ -209,7 +223,7 @@ const HPCMain = ({}: HPCMainProps) => {
 
   // Right car direction change (every 1 second)
   useEffect(() => {
-    if (isAdasDisabled) return; // Stop direction changes when ADAS is disabled
+    //if (isAdasDisabled) return; // Stop direction changes when ADAS is disabled
 
     const directionChange = setInterval(() => {
       setRightCarPosition((prev) => {
@@ -227,7 +241,7 @@ const HPCMain = ({}: HPCMainProps) => {
 
   // Right car movement animation
   useEffect(() => {
-    if (isAdasDisabled) return; // Stop movement when ADAS is disabled
+    //if (isAdasDisabled) return; // Stop movement when ADAS is disabled
 
     const animationFrame = setInterval(() => {
       setRightCarPosition((prev) => {
@@ -423,9 +437,10 @@ const HPCMain = ({}: HPCMainProps) => {
             top: `${leftCarPosition.y}px`,
             width: `${leftCarSize}px`,
             height: `${leftCarSize}px`,
-            boxShadow: isAdasDisabled
-              ? 'inset 0 0 0 5px rgba(214, 4, 4, 0.9)'
-              : 'inset 0 0 0 5px rgba(0, 0, 255, 0.9)',
+            opacity: carsVisible ? 1 : 0,
+            //boxShadow: isAdasDisabled
+              //? 'inset 0 0 0 5px rgba(214, 4, 4, 0.9)'
+              //: 'inset 0 0 0 5px rgba(0, 0, 255, 0.9)',
           }}
         />
         <img
@@ -437,9 +452,10 @@ const HPCMain = ({}: HPCMainProps) => {
             top: `${rightCarPosition.y}px`,
             width: `${rightCarSize}px`,
             height: `${rightCarSize}px`,
-            boxShadow: isAdasDisabled
-              ? 'inset 0 0 0 5px rgba(214, 4, 4, 0.9)'
-              : 'inset 0 0 0 5px rgba(0, 0, 255, 0.9)',
+            opacity: carsVisible ? 1 : 0,
+            //boxShadow: isAdasDisabled
+              //? 'inset 0 0 0 5px rgba(214, 4, 4, 0.9)'
+              //: 'inset 0 0 0 5px rgba(0, 0, 255, 0.9)',
           }}
         />
       </div>
