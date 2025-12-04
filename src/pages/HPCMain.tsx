@@ -70,7 +70,9 @@ const HPCMain = ({}: HPCMainProps) => {
 
   // Right car coordinates
   const RIGHT_CAR_POINT1 = { x: 740, y: 300 };
-  const RIGHT_CAR_POINT2 = { x: 850, y: 700 };
+  const RIGHT_CAR_POINT2 = { x: 768, y: 400 };
+  // const RIGHT_CAR_POINT1 = { x: 740, y: 300 };
+  // const RIGHT_CAR_POINT2 = { x: 850, y: 700 };
   // ======================================
 
   const [leftCarPosition, setLeftCarPosition] = useState({
@@ -165,7 +167,7 @@ const HPCMain = ({}: HPCMainProps) => {
 
     const directionChange = setInterval(() => {
       setLeftCarPosition((prev) => {
-        const criteria = 0.001 * prev.y + 0.1;
+        const criteria = 0.001 * prev.y;
         setLeftCarMovingTo2(Math.random() > criteria);
         // Set new random speed
         const randomFactor = 1 + (Math.random() * 2 - 1) * SPEED_RANDOMNESS;
@@ -210,7 +212,7 @@ const HPCMain = ({}: HPCMainProps) => {
 
     const directionChange = setInterval(() => {
       setRightCarPosition((prev) => {
-        const criteria = 0.001 * prev.y;
+        const criteria = 0.004 * prev.y - 0.9;
         setRightCarMovingTo2(Math.random() > criteria);
         // Set new random speed
         const randomFactor = 1 + (Math.random() * 2 - 1) * SPEED_RANDOMNESS;
