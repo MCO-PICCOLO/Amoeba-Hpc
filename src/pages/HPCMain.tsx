@@ -380,6 +380,7 @@ const HPCMain = ({}: HPCMainProps) => {
             top: `${leftCarPosition.y}px`,
             width: `${leftCarSize}px`,
             height: `${leftCarSize}px`,
+            boxShadow: 'inset 0 0 0 3px rgba(21, 21, 122, 0.8)',
           }}
         />
         <img
@@ -391,6 +392,7 @@ const HPCMain = ({}: HPCMainProps) => {
             top: `${rightCarPosition.y}px`,
             width: `${rightCarSize}px`,
             height: `${rightCarSize}px`,
+            boxShadow: 'inset 0 0 0 3px rgba(21, 21, 122, 0.8)',
           }}
         />
       </div>
