@@ -19,12 +19,12 @@ const BatteryPopup = ({ distance, percentage }: BatteryPopupProps) => {
 
   return (
     <div id="battery-popup">
+      <div className="distance">{distance}</div>
+      <div className="percentage">{percentage}</div>
       {isSpinning ? (
         <img className="spinning" src={spinningImage} alt="Loading" />
       ) : (
         <>
-          <div className="distance">{distance}</div>
-          <div className="percentage">{percentage}</div>
           <div className="life-span"></div>
         </>
       )}
