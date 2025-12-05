@@ -56,13 +56,14 @@ const HPCMain = ({}: HPCMainProps) => {
     ParkingStage.NONE,
   );
   const [lksasMode, setLksasMode] = useState<string>('off');
+  const [adasMode, setAdasMode] = useState<string>('on');
 
   // ===== CAR MOVEMENT CONFIGURATION =====
   const LEFT_CAR_BASE_SIZE = 60; // Base size in pixels at the top (smallest)
   const RIGHT_CAR_BASE_SIZE = 60; // Base size in pixels at the top (smallest)
   const PERSPECTIVE = 0.4; // Size increase per pixel of Y movement (perspective effect)
-  const BASE_SPEED = 1; // Base speed in pixels per frame
-  const SPEED_RANDOMNESS = 0.3; // Random variation in speed (±30%)
+  const BASE_SPEED = 0.8; // Base speed in pixels per frame
+  const SPEED_RANDOMNESS = 0.4; // Random variation in speed (±40%)
 
   // Left car coordinates
   const LEFT_CAR_POINT1 = { x: 350, y: 200 };
@@ -70,7 +71,9 @@ const HPCMain = ({}: HPCMainProps) => {
 
   // Right car coordinates
   const RIGHT_CAR_POINT1 = { x: 740, y: 300 };
-  const RIGHT_CAR_POINT2 = { x: 850, y: 700 };
+  const RIGHT_CAR_POINT2 = { x: 768, y: 400 };
+  // const RIGHT_CAR_POINT1 = { x: 740, y: 300 };
+  // const RIGHT_CAR_POINT2 = { x: 850, y: 700 };
   // ======================================
 
   const [leftCarPosition, setLeftCarPosition] = useState({
@@ -85,6 +88,7 @@ const HPCMain = ({}: HPCMainProps) => {
   const [rightCarMovingTo2, setRightCarMovingTo2] = useState(true);
   const [leftCarSpeed, setLeftCarSpeed] = useState(BASE_SPEED);
   const [rightCarSpeed, setRightCarSpeed] = useState(BASE_SPEED);
+  const [carsVisible, setCarsVisible] = useState(true);
 
   const initDistance = 195;
   const maxDistance = 370;
@@ -142,30 +146,43 @@ const HPCMain = ({}: HPCMainProps) => {
   useEffect(() => {
     if (!isAdasDisabled) {
       // Generate random position on left car's line
-      const leftT = Math.random(); // Random interpolation factor (0 to 1)
+      /*const leftT = Math.random(); // Random interpolation factor (0 to 1)
       const leftNewX =
         LEFT_CAR_POINT1.x + (LEFT_CAR_POINT2.x - LEFT_CAR_POINT1.x) * leftT;
       const leftNewY =
         LEFT_CAR_POINT1.y + (LEFT_CAR_POINT2.y - LEFT_CAR_POINT1.y) * leftT;
-      setLeftCarPosition({ x: leftNewX, y: leftNewY });
+      setLeftCarPosition({ x: leftNewX, y: leftNewY });*/
 
       // Generate random position on right car's line
-      const rightT = Math.random(); // Random interpolation factor (0 to 1)
+      /*const rightT = Math.random(); // Random interpolation factor (0 to 1)
       const rightNewX =
         RIGHT_CAR_POINT1.x + (RIGHT_CAR_POINT2.x - RIGHT_CAR_POINT1.x) * rightT;
       const rightNewY =
         RIGHT_CAR_POINT1.y + (RIGHT_CAR_POINT2.y - RIGHT_CAR_POINT1.y) * rightT;
-      setRightCarPosition({ x: rightNewX, y: rightNewY });
+      setRightCarPosition({ x: rightNewX, y: rightNewY });*/
+    }
+  }, [isAdasDisabled]);
+
+  // Flicker cars when ADAS is disabled
+  useEffect(() => {
+    if (isAdasDisabled) {
+      const flickerInterval = setInterval(() => {
+        setCarsVisible((prev) => !prev);
+      }, 500); // Toggle every 0.5 seconds (1 second period)
+
+      return () => clearInterval(flickerInterval);
+    } else {
+      setCarsVisible(true); // Always visible when ADAS is enabled
     }
   }, [isAdasDisabled]);
 
   // Left car direction change (every 1 second)
   useEffect(() => {
-    if (isAdasDisabled) return; // Stop direction changes when ADAS is disabled
+    //if (isAdasDisabled) return; // Stop direction changes when ADAS is disabled
 
     const directionChange = setInterval(() => {
       setLeftCarPosition((prev) => {
-        const criteria = 0.001 * prev.y + 0.1;
+        const criteria = 0.001 * prev.y;
         setLeftCarMovingTo2(Math.random() > criteria);
         // Set new random speed
         const randomFactor = 1 + (Math.random() * 2 - 1) * SPEED_RANDOMNESS;
@@ -179,7 +196,7 @@ const HPCMain = ({}: HPCMainProps) => {
 
   // Left car movement animation
   useEffect(() => {
-    if (isAdasDisabled) return; // Stop movement when ADAS is disabled
+    //if (isAdasDisabled) return; // Stop movement when ADAS is disabled
 
     const animationFrame = setInterval(() => {
       setLeftCarPosition((prev) => {
@@ -206,11 +223,11 @@ const HPCMain = ({}: HPCMainProps) => {
 
   // Right car direction change (every 1 second)
   useEffect(() => {
-    if (isAdasDisabled) return; // Stop direction changes when ADAS is disabled
+    //if (isAdasDisabled) return; // Stop direction changes when ADAS is disabled
 
     const directionChange = setInterval(() => {
       setRightCarPosition((prev) => {
-        const criteria = 0.001 * prev.y;
+        const criteria = 0.004 * prev.y - 0.9;
         setRightCarMovingTo2(Math.random() > criteria);
         // Set new random speed
         const randomFactor = 1 + (Math.random() * 2 - 1) * SPEED_RANDOMNESS;
@@ -224,7 +241,7 @@ const HPCMain = ({}: HPCMainProps) => {
 
   // Right car movement animation
   useEffect(() => {
-    if (isAdasDisabled) return; // Stop movement when ADAS is disabled
+    //if (isAdasDisabled) return; // Stop movement when ADAS is disabled
 
     const animationFrame = setInterval(() => {
       setRightCarPosition((prev) => {
@@ -299,6 +316,7 @@ const HPCMain = ({}: HPCMainProps) => {
           setContainerNames(['"ADAS Active"']);
           setIsAdasDisabled(false);
           setLksasMode('off');
+          setAdasMode('on');
         } else if (keyState === KeyState.VIDEO_PLAY) {
           setContainerNames(['"ADAS Active"', '"LKAS Active"']);
           setDisplayMode(DisplayMode.AD_MODE);
@@ -306,6 +324,7 @@ const HPCMain = ({}: HPCMainProps) => {
           setParkingStage(ParkingStage.NONE);
           setIsAdasDisabled(true);
           setLksasMode('warning');
+          setAdasMode('warning');
         } else if (keyState === KeyState.APPLY_POLICY) {
           setContainerNames(['"ADAS Active"', '"LKAS Active"']);
           setDisplayMode(DisplayMode.AD_MODE);
@@ -313,6 +332,7 @@ const HPCMain = ({}: HPCMainProps) => {
           setParkingStage(ParkingStage.NONE);
           setIsAdasDisabled(false);
           setLksasMode('on');
+          setAdasMode('on');
         } else if (keyState === KeyState.NOTI_TRUNK) {
           // setDisplayMode(DisplayMode.AD_MODE);
           // setCarModeClass(CarMode.AD);
@@ -417,9 +437,10 @@ const HPCMain = ({}: HPCMainProps) => {
             top: `${leftCarPosition.y}px`,
             width: `${leftCarSize}px`,
             height: `${leftCarSize}px`,
-            boxShadow: isAdasDisabled
-              ? 'inset 0 0 0 5px rgba(214, 4, 4, 0.9)'
-              : 'inset 0 0 0 5px rgba(0, 0, 255, 0.9)',
+            opacity: carsVisible ? 1 : 0,
+            //boxShadow: isAdasDisabled
+              //? 'inset 0 0 0 5px rgba(214, 4, 4, 0.9)'
+              //: 'inset 0 0 0 5px rgba(0, 0, 255, 0.9)',
           }}
         />
         <img
@@ -431,9 +452,10 @@ const HPCMain = ({}: HPCMainProps) => {
             top: `${rightCarPosition.y}px`,
             width: `${rightCarSize}px`,
             height: `${rightCarSize}px`,
-            boxShadow: isAdasDisabled
-              ? 'inset 0 0 0 5px rgba(214, 4, 4, 0.9)'
-              : 'inset 0 0 0 5px rgba(0, 0, 255, 0.9)',
+            opacity: carsVisible ? 1 : 0,
+            //boxShadow: isAdasDisabled
+              //? 'inset 0 0 0 5px rgba(214, 4, 4, 0.9)'
+              //: 'inset 0 0 0 5px rgba(0, 0, 255, 0.9)',
           }}
         />
       </div>
@@ -458,7 +480,7 @@ const HPCMain = ({}: HPCMainProps) => {
           <div className="unit">km</div>
         </div>
       </div>
-      <div className="adas-indicator" />
+  <div className={`adas-indicator ${adasMode}`} />
       <div className={`lkas-indicator ${lksasMode}`} />
       <div
         className="battery-indicator"
