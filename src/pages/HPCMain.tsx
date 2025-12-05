@@ -84,6 +84,15 @@ const HPCMain = ({}: HPCMainProps) => {
     x: RIGHT_CAR_POINT1.x,
     y: RIGHT_CAR_POINT1.y,
   });
+  // Background positions (continue calculating even when cars are invisible)
+  const [leftCarBgPosition, setLeftCarBgPosition] = useState({
+    x: LEFT_CAR_POINT1.x,
+    y: LEFT_CAR_POINT1.y,
+  });
+  const [rightCarBgPosition, setRightCarBgPosition] = useState({
+    x: RIGHT_CAR_POINT1.x,
+    y: RIGHT_CAR_POINT1.y,
+  });
   const [leftCarMovingTo2, setLeftCarMovingTo2] = useState(true);
   const [rightCarMovingTo2, setRightCarMovingTo2] = useState(true);
   const [leftCarSpeed, setLeftCarSpeed] = useState(BASE_SPEED);
@@ -166,22 +175,68 @@ const HPCMain = ({}: HPCMainProps) => {
   // Flicker cars when ADAS is disabled
   useEffect(() => {
     if (isAdasDisabled) {
-      const flickerInterval = setInterval(() => {
-        setCarsVisible((prev) => !prev);
-      }, 500); // Toggle every 0.5 seconds (1 second period)
+      const runningTime = carsVisible
+        ? Math.random() * 300 + 200 // Random fast flicker when visible (200-500ms)
+        : Math.random() * 1200 + 300; // Random delay when invisible (300-1500ms)
 
-      return () => clearInterval(flickerInterval);
+      // When car is about to become visible (currently visible)
+      if (carsVisible) {
+        // Store the background position as the "frozen" position for first half
+        const frozenLeftPos = { ...leftCarBgPosition };
+        const frozenRightPos = { ...rightCarBgPosition };
+
+        const visibilityTimeout = setTimeout(() => {
+          setCarsVisible(false);
+          // Set to frozen position at start of visibility
+          setLeftCarPosition({ ...leftCarBgPosition });
+          setRightCarPosition({ ...rightCarBgPosition });
+          //setLeftCarPosition(frozenLeftPos);
+          //setRightCarPosition(frozenRightPos);
+
+          // Jump to current background position in second half
+          /*const jumpTimeout = setTimeout(() => {
+            //setLeftCarPosition({ ...leftCarBgPosition });
+            //setRightCarPosition({ ...rightCarBgPosition });
+            setLeftCarPosition(frozenLeftPos);
+            setRightCarPosition(frozenRightPos);
+          }, runningTime / 2);*/
+
+          //return () => clearTimeout(jumpTimeout);
+        }, runningTime);
+        
+        const jumpTimeout = setTimeout(() => {
+            //setLeftCarPosition({ ...leftCarBgPosition });
+            //setRightCarPosition({ ...rightCarBgPosition });
+            setLeftCarPosition(frozenLeftPos);
+            setRightCarPosition(frozenRightPos);
+          }, runningTime / 3);
+
+        //return () => clearTimeout(visibilityTimeout);
+        /*setTimeout(() => {
+          setCarsVisible(false);
+        }, runningTime);*/
+      } else {
+        // Car is invisible, will become invisible
+        const invisibilityTimeout = setTimeout(() => {
+          setCarsVisible(true);
+        }, runningTime);
+
+        //return () => clearTimeout(invisibilityTimeout);
+      }
     } else {
       setCarsVisible(true); // Always visible when ADAS is enabled
+      setLeftCarPosition({ ...leftCarBgPosition });
+      setRightCarPosition({ ...rightCarBgPosition });
     }
-  }, [isAdasDisabled]);
+  //}, [isAdasDisabled, carsVisible, leftCarBgPosition, rightCarBgPosition]);
+  }, [isAdasDisabled, carsVisible]);
 
   // Left car direction change (every 1 second)
   useEffect(() => {
     //if (isAdasDisabled) return; // Stop direction changes when ADAS is disabled
 
     const directionChange = setInterval(() => {
-      setLeftCarPosition((prev) => {
+      setLeftCarBgPosition((prev) => {
         const criteria = 0.001 * prev.y;
         setLeftCarMovingTo2(Math.random() > criteria);
         // Set new random speed
@@ -199,7 +254,7 @@ const HPCMain = ({}: HPCMainProps) => {
     //if (isAdasDisabled) return; // Stop movement when ADAS is disabled
 
     const animationFrame = setInterval(() => {
-      setLeftCarPosition((prev) => {
+      setLeftCarBgPosition((prev) => {
         const baseTarget = leftCarMovingTo2 ? LEFT_CAR_POINT2 : LEFT_CAR_POINT1;
         const target = {
           x: baseTarget.x,
@@ -211,10 +266,17 @@ const HPCMain = ({}: HPCMainProps) => {
         const distance = Math.sqrt(dx * dx + dy * dy);
 
         const ratio = leftCarSpeed / distance;
-        return {
+        const newPos = {
           x: prev.x + dx * ratio,
           y: prev.y + dy * ratio,
         };
+        
+        // Update displayed position only when ADAS is enabled
+        if (!isAdasDisabled) {
+          setLeftCarPosition(newPos);
+        }
+        
+        return newPos;
       });
     }, 16); // ~60fps
 
@@ -226,7 +288,7 @@ const HPCMain = ({}: HPCMainProps) => {
     //if (isAdasDisabled) return; // Stop direction changes when ADAS is disabled
 
     const directionChange = setInterval(() => {
-      setRightCarPosition((prev) => {
+      setRightCarBgPosition((prev) => {
         const criteria = 0.004 * prev.y - 0.9;
         setRightCarMovingTo2(Math.random() > criteria);
         // Set new random speed
@@ -244,7 +306,7 @@ const HPCMain = ({}: HPCMainProps) => {
     //if (isAdasDisabled) return; // Stop movement when ADAS is disabled
 
     const animationFrame = setInterval(() => {
-      setRightCarPosition((prev) => {
+      setRightCarBgPosition((prev) => {
         const baseTarget = rightCarMovingTo2
           ? RIGHT_CAR_POINT2
           : RIGHT_CAR_POINT1;
@@ -258,10 +320,17 @@ const HPCMain = ({}: HPCMainProps) => {
         const distance = Math.sqrt(dx * dx + dy * dy);
 
         const ratio = rightCarSpeed / distance;
-        return {
+        const newPos = {
           x: prev.x + dx * ratio,
           y: prev.y + dy * ratio,
         };
+        
+        // Update displayed position only when ADAS is enabled
+        if (!isAdasDisabled) {
+          setRightCarPosition(newPos);
+        }
+        
+        return newPos;
       });
     }, 16); // ~60fps
 
